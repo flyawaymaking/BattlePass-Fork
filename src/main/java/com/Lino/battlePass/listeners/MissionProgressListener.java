@@ -4,8 +4,7 @@ import com.Lino.battlePass.BattlePass;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -14,8 +13,11 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.projectiles.ProjectileSource;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -88,7 +90,15 @@ public class MissionProgressListener implements Listener {
             try {
                 double distance = last.distance(toLoc);
                 if (distance >= 1 && distance < 100) {
-                    plugin.getMissionManager().progressMission(player, "WALK_DISTANCE", "ANY", (int) distance);
+                    if (player.isFlying() || player.isGliding()) {
+                        plugin.getMissionManager().progressMission(player, "WALK_DISTANCE", "FLY", (int) distance);
+                    } else if (player.isSwimming() || isInWater(player)) {
+                        plugin.getMissionManager().progressMission(player, "WALK_DISTANCE", "SWIM", (int) distance);
+                    } else if (player.isSneaking()) {
+                        plugin.getMissionManager().progressMission(player, "WALK_DISTANCE", "SNEAK", (int) distance);
+                    } else {
+                        plugin.getMissionManager().progressMission(player, "WALK_DISTANCE", "WALK", (int) distance);
+                    }
                 }
             } catch (IllegalArgumentException ignored) {
             }
@@ -98,20 +108,128 @@ public class MissionProgressListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onPlayerDeath(PlayerDeathEvent event) {
-        plugin.getMissionManager().progressMission(event.getEntity(), "DEATH", "ANY", 1);
+    private boolean isInWater(Player player) {
+        Location loc = player.getLocation();
+        Material blockType = loc.getBlock().getType();
+        return blockType == Material.WATER || blockType == Material.BUBBLE_COLUMN;
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onEntityDamage(EntityDamageEvent event) {
+        if (!(event.getEntity() instanceof Player player)) return;
+        int amount = (int) event.getFinalDamage();
+
+        for (String type : enumerateDamageTypes(event)) {
+            plugin.getMissionManager().progressMission(player, "DAMAGE_TAKEN", type, amount);
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
-        if (event.getDamager() instanceof Player player) {
-            plugin.getMissionManager().progressMission(player, "DAMAGE_DEALT", "ANY", (int) event.getDamage());
+        Entity trueDamager = getTrueDamager(event.getDamager());
+        if (trueDamager instanceof Player player) {
+            int amount = (int) event.getFinalDamage();
+            for (String type : enumerateDamageTypes(event)) {
+                plugin.getMissionManager().progressMission(player, "DAMAGE_DEALT", type, amount);
+            }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPlayerDeath(PlayerDeathEvent event) {
+        Player player = event.getEntity();
+        EntityDamageEvent last = player.getLastDamageCause();
+        if (last == null) {
+            plugin.getMissionManager().progressMission(player, "DEATH", "UNKNOWN", 1);
+            return;
         }
 
-        if (event.getEntity() instanceof Player player) {
-            plugin.getMissionManager().progressMission(player, "DAMAGE_TAKEN", "ANY", (int) event.getDamage());
+        for (String type : enumerateDamageTypes(last)) {
+            plugin.getMissionManager().progressMission(player, "DEATH", type, 1);
         }
+    }
+
+    private List<String> enumerateDamageTypes(EntityDamageEvent event) {
+        List<String> result = new ArrayList<>();
+
+        if (event instanceof EntityDamageByEntityEvent edbe) {
+            Entity rawDamager = edbe.getDamager();
+
+            if (rawDamager instanceof Projectile projectile) {
+                result.add(safeName(projectile.getType().name()));
+
+                ProjectileSource shooter = projectile.getShooter();
+                if (shooter instanceof Entity shooterEntity) {
+                    if (shooterEntity instanceof Player) {
+                        result.add("PLAYER");
+                    } else if (shooterEntity instanceof LivingEntity livingShooter) {
+                        String mobBase = safeName(livingShooter.getType().name());
+                        result.add(mobBase);
+                    } else {
+                        result.add(safeName(shooterEntity.getType().name()));
+                    }
+                }
+            } else {
+                if (rawDamager instanceof Player) {
+                    result.add("PLAYER");
+                } else if (rawDamager instanceof LivingEntity living) {
+                    result.add(safeName(living.getType().name()));
+                } else {
+                    result.add(safeName(rawDamager.getType().name()));
+                }
+            }
+        }
+
+        result.add(safeName(getCauseName(event.getCause())));
+
+        return new ArrayList<>(new LinkedHashSet<>(result));
+    }
+
+    private Entity getTrueDamager(Entity damager) {
+        if (damager instanceof Projectile projectile) {
+            ProjectileSource ps = projectile.getShooter();
+            if (ps instanceof Entity shooterEntity) return shooterEntity;
+        }
+        return damager;
+    }
+
+    private String getCauseName(EntityDamageEvent.DamageCause cause) {
+        switch (cause) {
+            case FIRE, FIRE_TICK -> {
+                return "FIRE";
+            }
+            case LAVA -> {
+                return "LAVA";
+            }
+            case FALL -> {
+                return "FALL";
+            }
+            case DROWNING -> {
+                return "DROWNING";
+            }
+            case POISON -> {
+                return "POISON";
+            }
+            case BLOCK_EXPLOSION, ENTITY_EXPLOSION -> {
+                return "EXPLOSION";
+            }
+            case VOID -> {
+                return "VOID";
+            }
+            case STARVATION -> {
+                return "STARVATION";
+            }
+            case CONTACT -> {
+                return "CONTACT";
+            }
+            default -> {
+                return cause.name();
+            }
+        }
+    }
+
+    private String safeName(String s) {
+        return s == null ? "UNKNOWN" : s.replaceAll("[^A-Z0-9_]", "_").toUpperCase();
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -131,16 +249,30 @@ public class MissionProgressListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onVillagerTrade(PlayerInteractEntityEvent event) {
-        if (event.getRightClicked().getType() == EntityType.VILLAGER) {
-            Player player = event.getPlayer();
-            plugin.getMissionManager().progressMission(player, "TRADE_VILLAGER", "ANY", 1);
+    public void onVillagerTrade(InventoryClickEvent event) {
+        if (!(event.getWhoClicked() instanceof Player player)) return;
+        if (event.getSlotType() != InventoryType.SlotType.RESULT) return;
+        if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR) return;
+
+        if (event.getInventory().getHolder() instanceof Villager villager) {
+            String profession = villager.getProfession().key().value()
+                    .replace("minecraft:", "")
+                    .toUpperCase();
+            if (profession.equals("NONE")) profession = "VILLAGER";
+
+            plugin.getMissionManager().progressMission(player, "TRADE_VILLAGER", profession, 1);
         }
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onEnchantItem(EnchantItemEvent event) {
-        plugin.getMissionManager().progressMission(event.getEnchanter(), "ENCHANT_ITEM", "ANY", 1);
+        Player player = event.getEnchanter();
+        ItemStack item = event.getItem();
+
+        if (item.getType() != Material.AIR) {
+            String itemType = item.getType().name();
+            plugin.getMissionManager().progressMission(player, "ENCHANT_ITEM", itemType, 1);
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

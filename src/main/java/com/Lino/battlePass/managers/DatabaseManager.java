@@ -103,10 +103,17 @@ public class DatabaseManager {
                                 "name TEXT," +
                                 "type TEXT," +
                                 "target TEXT," +
+                                "additional_targets TEXT," +
                                 "required INTEGER," +
                                 "xp_reward INTEGER," +
                                 "date TEXT)"
                 );
+
+                try {
+                    stmt.executeUpdate("ALTER TABLE daily_missions ADD COLUMN additional_targets TEXT DEFAULT ''");
+                } catch (SQLException ignored) {
+                }
+
                 stmt.executeUpdate("CREATE INDEX IF NOT EXISTS idx_missions_uuid_date ON missions(uuid, date)");
                 stmt.executeUpdate("CREATE INDEX IF NOT EXISTS idx_players_total_levels ON players(total_levels DESC, level DESC, xp DESC)");
             }
@@ -389,16 +396,17 @@ public class DatabaseManager {
                 }
 
                 try (PreparedStatement ps = connection.prepareStatement(
-                        "INSERT OR REPLACE INTO daily_missions (name, type, target, required, xp_reward, date) " +
-                                "VALUES (?, ?, ?, ?, ?, ?)"
+                        "INSERT OR REPLACE INTO daily_missions (name, type, target, additional_targets, required, xp_reward, date) " +
+                                "VALUES (?, ?, ?, ?, ?, ?, ?)"
                 )) {
                     for (Mission mission : missions) {
                         ps.setString(1, mission.name);
                         ps.setString(2, mission.type);
                         ps.setString(3, mission.target);
-                        ps.setInt(4, mission.required);
-                        ps.setInt(5, mission.xpReward);
-                        ps.setString(6, missionDate);
+                        ps.setString(4, String.join(",", mission.additionalTargets));
+                        ps.setInt(5, mission.required);
+                        ps.setInt(6, mission.xpReward);
+                        ps.setString(7, missionDate);
                         ps.addBatch();
                     }
                     ps.executeBatch();
@@ -424,10 +432,17 @@ public class DatabaseManager {
                 ps.setString(1, missionDate);
                 try (ResultSet rs = ps.executeQuery()) {
                     while (rs.next()) {
+                        String additionalTargetsStr = rs.getString("additional_targets");
+                        List<String> additionalTargets = new ArrayList<>();
+                        if (additionalTargetsStr != null && !additionalTargetsStr.isEmpty()) {
+                            additionalTargets = Arrays.asList(additionalTargetsStr.split(","));
+                        }
+
                         Mission mission = new Mission(
                                 rs.getString("name"),
                                 rs.getString("type"),
                                 rs.getString("target"),
+                                additionalTargets,
                                 rs.getInt("required"),
                                 rs.getInt("xp_reward")
                         );

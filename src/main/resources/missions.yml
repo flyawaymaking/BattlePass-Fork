@@ -36,6 +36,10 @@ mission-pools:
   kill-zombies:
     type: KILL_MOB
     target: ZOMBIE
+    additional-targets:
+      - ZOMBIE_VILLAGER
+      - DROWNED
+      - HUSK
     display-name: "Kill <amount> Zombies"
     min-required: 10
     max-required: 30
@@ -46,6 +50,9 @@ mission-pools:
   kill-skeletons:
     type: KILL_MOB
     target: SKELETON
+    additional-targets:
+      - STRAY
+      - BOGGED
     display-name: "Kill <amount> Skeletons"
     min-required: 10
     max-required: 25
@@ -66,6 +73,8 @@ mission-pools:
   kill-spiders:
     type: KILL_MOB
     target: SPIDER
+    additional-targets:
+      - CAVE_SPIDER
     display-name: "Kill <amount> Spiders"
     min-required: 10
     max-required: 25
@@ -137,46 +146,32 @@ mission-pools:
   mine-diamonds:
     type: MINE_BLOCK
     target: DIAMOND_ORE
+    additional-targets:
+      - DEEPSLATE_DIAMOND_ORE
     display-name: "Mine <amount> Diamonds"
     min-required: 3
     max-required: 10
-    min-xp: 300
-    max-xp: 500
+    min-xp: 325
+    max-xp: 525
     weight: 7
-
-  mine-deepslate-diamonds:
-    type: MINE_BLOCK
-    target: DEEPSLATE_DIAMOND_ORE
-    display-name: "Mine <amount> Deepslate Diamond Ore"
-    min-required: 3
-    max-required: 10
-    min-xp: 350
-    max-xp: 550
-    weight: 4
 
   mine-iron:
     type: MINE_BLOCK
     target: IRON_ORE
+    additional-targets:
+      - DEEPSLATE_IRON_ORE
     display-name: "Mine <amount> Iron Ore"
     min-required: 20
     max-required: 50
-    min-xp: 100
-    max-xp: 200
+    min-xp: 110
+    max-xp: 210
     weight: 10
-
-  mine-deepslate-iron:
-    type: MINE_BLOCK
-    target: DEEPSLATE_IRON_ORE
-    display-name: "Mine <amount> Deepslate Iron Ore"
-    min-required: 15
-    max-required: 40
-    min-xp: 120
-    max-xp: 220
-    weight: 9
 
   mine-gold:
     type: MINE_BLOCK
     target: GOLD_ORE
+    additional-targets:
+      - DEEPSLATE_GOLD_ORE
     display-name: "Mine <amount> Gold Ore"
     min-required: 10
     max-required: 30
@@ -187,6 +182,8 @@ mission-pools:
   mine-emeralds:
     type: MINE_BLOCK
     target: EMERALD_ORE
+    additional-targets:
+      - DEEPSLATE_EMERALD_ORE
     display-name: "Mine <amount> Emerald Ore"
     min-required: 3
     max-required: 8
@@ -197,6 +194,8 @@ mission-pools:
   mine-lapis:
     type: MINE_BLOCK
     target: LAPIS_ORE
+    additional-targets:
+      - DEEPSLATE_LAPIS_ORE
     display-name: "Mine <amount> Lapis Ore"
     min-required: 10
     max-required: 25
@@ -207,6 +206,8 @@ mission-pools:
   mine-redstone:
     type: MINE_BLOCK
     target: REDSTONE_ORE
+    additional-targets:
+      - DEEPSLATE_REDSTONE_ORE
     display-name: "Mine <amount> Redstone Ore"
     min-required: 15
     max-required: 35
@@ -217,6 +218,8 @@ mission-pools:
   mine-coal:
     type: MINE_BLOCK
     target: COAL_ORE
+    additional-targets:
+      - DEEPSLATE_COAL_ORE
     display-name: "Mine <amount> Coal Ore"
     min-required: 30
     max-required: 80
@@ -248,6 +251,14 @@ mission-pools:
   break-dirt:
     type: BREAK_BLOCK
     target: DIRT
+    additional-targets:
+      - GRASS_BLOCK
+      - COARSE_DIRT
+      - ROOTED_DIRT
+      - PODZOL
+      - MYCELIUM
+      - DIRT_PATH
+      - FARMLAND
     display-name: "Break <amount> Dirt"
     min-required: 50
     max-required: 150
@@ -258,6 +269,10 @@ mission-pools:
   break-logs:
     type: BREAK_BLOCK
     target: OAK_LOG
+    additional-targets:
+      - STRIPPED_OAK_LOG
+      - OAK_WOOD
+      - STRIPPED_OAK_WOOD
     display-name: "Break <amount> Oak Logs"
     min-required: 30
     max-required: 80
@@ -268,6 +283,8 @@ mission-pools:
   break-sand:
     type: BREAK_BLOCK
     target: SAND
+    additional-targets:
+      - RAD_SAND
     display-name: "Break <amount> Sand"
     min-required: 40
     max-required: 100
@@ -409,10 +426,62 @@ mission-pools:
     max-xp: 400
     weight: 6
 
+  enchant-swords:
+    type: ENCHANT_ITEM
+    target: DIAMOND_SWORD
+    additional-targets:
+      - NETHERITE_SWORD
+      - IRON_SWORD
+      - GOLDEN_SWORD
+      - STONE_SWORD
+      - WOODEN_SWORD
+    display-name: "Enchant <amount> swords"
+    min-required: 2
+    max-required: 5
+    min-xp: 150
+    max-xp: 300
+    weight: 5
+
+  enchant-armor:
+    type: ENCHANT_ITEM
+    target: DIAMOND_CHESTPLATE
+    additional-targets:
+      - NETHERITE_HELMET
+      - NETHERITE_CHESTPLATE
+      - NETHERITE_LEGGINGS
+      - NETHERITE_BOOTS
+      - DIAMOND_HELMET
+      - DIAMOND_LEGGINGS
+      - DIAMOND_BOOTS
+      - IRON_HELMET
+      - IRON_CHESTPLATE
+      - IRON_LEGGINGS
+      - IRON_BOOTS
+      - GOLDEN_HELMET
+      - GOLDEN_CHESTPLATE
+      - GOLDEN_LEGGINGS
+      - GOLDEN_BOOTS
+      - LEATHER_HELMET
+      - LEATHER_CHESTPLATE
+      - LEATHER_LEGGINGS
+      - LEATHER_BOOTS
+      - CHAINMAIL_HELMET
+      - CHAINMAIL_CHESTPLATE
+      - CHAINMAIL_LEGGINGS
+      - CHAINMAIL_BOOTS
+    display-name: "Enchant <amount> armors"
+    min-required: 3
+    max-required: 6
+    min-xp: 200
+    max-xp: 400
+    weight: 6
+
   # Breed missions
   breed-cows:
     type: BREED_ANIMAL
     target: COW
+    additional-targets:
+      - MOOSHROOM
     display-name: "Breed <amount> Cows"
     min-required: 5
     max-required: 15
@@ -454,6 +523,8 @@ mission-pools:
   tame-cats:
     type: TAME_ANIMAL
     target: CAT
+    additional-targets:
+      - OCELOT
     display-name: "Tame <amount> Cats"
     min-required: 2
     max-required: 5
@@ -472,6 +543,8 @@ mission-pools:
     weight: 5
 
   # Trade missions
+  # Supported targets: ANY, FARMER, FISHERMAN, SHEPHERD, FLETCHER, LIBRARIAN, CARTOGRAPHER,
+  #  CLERIC, ARMORER, WEAPONSMITH, TOOLSMITH, BUTCHER, LEATHERWORKER, MASON, MERCHANT
   trade-villagers:
     type: TRADE_VILLAGER
     target: ANY
@@ -480,6 +553,36 @@ mission-pools:
     max-required: 15
     min-xp: 150
     max-xp: 300
+    weight: 7
+
+  trade-agriculture:
+    type: TRADE_VILLAGER
+    target: FARMER
+    additional-targets:
+      - FISHERMAN
+      - SHEPHERD
+      - BUTCHER
+    display-name: "Trade with Agriculture Villagers <amount> Times"
+    min-required: 4
+    max-required: 10
+    min-xp: 200
+    max-xp: 350
+    weight: 8
+
+  trade-crafters:
+    type: TRADE_VILLAGER
+    target: ARMORER
+    additional-targets:
+      - WEAPONSMITH
+      - TOOLSMITH
+      - FLETCHER
+      - LEATHERWORKER
+      - MASON
+    display-name: "Change with Crafters Villagers <amount> Times"
+    min-required: 6
+    max-required: 12
+    min-xp: 250
+    max-xp: 400
     weight: 7
 
   # Player missions
@@ -493,17 +596,8 @@ mission-pools:
     max-xp: 500
     weight: 5
 
-  # Other missions
-  die-times:
-    type: DEATH
-    target: ANY
-    display-name: "Die <amount> Times"
-    min-required: 3
-    max-required: 8
-    min-xp: 100
-    max-xp: 200
-    weight: 3
-
+  # DamageDeal missions
+  # Supported targets: ANY, PLAYER, ANY MOBS
   deal-damage:
     type: DAMAGE_DEALT
     target: ANY
@@ -514,6 +608,113 @@ mission-pools:
     max-xp: 300
     weight: 6
 
+  damage-sea-creatures:
+    type: DAMAGE_DEALT
+    target: GUARDIAN
+    additional-targets:
+      - ELDER_GUARDIAN
+      - SQUID
+      - GLOW_SQUID
+      - DOLPHIN
+      - TURTLE
+      - COD
+      - SALMON
+      - PUFFERFISH
+      - TROPICAL_FISH
+      - AXOLOTL
+    display-name: "Deal <amount> Damage to sea creatures"
+    min-required: 200
+    max-required: 600
+    min-xp: 180
+    max-xp: 350
+    weight: 5
+
+  damage-nether-creatures:
+    type: DAMAGE_DEALT
+    target: ZOMBIFIED_PIGLIN
+    additional-targets:
+      - BLAZE
+      - GHAST
+      - MAGMA_CUBE
+      - WITHER_SKELETON
+      - PIGLIN
+      - PIGLIN_BRUTE
+      - HOGLIN
+      - ZOGLIN
+      - STRIDER
+    display-name: "Deal <amount> Damage to nether creatures"
+    min-required: 300
+    max-required: 800
+    min-xp: 200
+    max-xp: 400
+    weight: 5
+
+  damage-end-creatures:
+    type: DAMAGE_DEALT
+    target: ENDERMAN
+    additional-targets:
+      - ENDERMITE
+      - SHULKER
+      - ENDER_DRAGON
+    display-name: "Deal <amount> Damage to end creatures"
+    min-required: 150
+    max-required: 400
+    min-xp: 250
+    max-xp: 500
+    weight: 4
+
+  damage-overworld-animals:
+    type: DAMAGE_DEALT
+    target: COW
+    additional-targets:
+      - PIG
+      - SHEEP
+      - CHICKEN
+      - RABBIT
+      - FOX
+      - PANDA
+      - BEE
+      - POLAR_BEAR
+      - WOLF
+      - OCELOT
+      - CAT
+      - PARROT
+      - DONKEY
+      - HORSE
+      - MULE
+      - LLAMA
+      - TRADER_LLAMA
+      - GOAT
+      - FROG
+      - TADPOLE
+    display-name: "Deal <amount> Damage to overworld animals"
+    min-required: 100
+    max-required: 300
+    min-xp: 120
+    max-xp: 250
+    weight: 4
+
+  damage-flying-creatures:
+    type: DAMAGE_DEALT
+    target: GHAST
+    additional-targets:
+      - BLAZE
+      - PHANTOM
+      - BAT
+      - PARROT
+      - BEE
+      - ENDER_DRAGON
+      - WITHER
+    display-name: "Deal <amount> Damage to Flying creatures"
+    min-required: 150
+    max-required: 450
+    min-xp: 190
+    max-xp: 370
+    weight: 4
+
+  #DamageTaken missions
+  # Supported targets: ANY, PLAYER, ANY MOBS, FIRE, LAVA, FALL, DROWNING, POISON,
+  #  EXPLOSION, VOID, STARVATION, CONTACT
   take-damage:
     type: DAMAGE_TAKEN
     target: ANY
@@ -524,16 +725,74 @@ mission-pools:
     max-xp: 200
     weight: 4
 
-  walk-blocks:
+  take-damage-fall:
+    type: DAMAGE_TAKEN
+    target: FALL
+    display-name: "Take <amount> Damage from fall"
+    min-required: 25
+    max-required: 75
+    min-xp: 100
+    max-xp: 200
+    weight: 4
+
+  take-damage-fire:
+    type: DAMAGE_TAKEN
+    target: FIRE
+    additional-targets:
+      - LAVA
+    display-name: "Take <amount> Damage from fire"
+    min-required: 50
+    max-required: 150
+    min-xp: 100
+    max-xp: 200
+    weight: 4
+
+  # Death missions
+  # Supported targets: ANY, PLAYER, ANY MOBS, FIRE, LAVA, FALL, DROWNING, POISON,
+  #  EXPLOSION, VOID, STARVATION, CONTACT
+  die-times:
+    type: DEATH
+    target: ANY
+    display-name: "Die <amount> Times"
+    min-required: 3
+    max-required: 8
+    min-xp: 100
+    max-xp: 200
+    weight: 3
+
+  die-times-explosion:
+    type: DEATH
+    target: EXPLOSION
+    display-name: "Die <amount> Times from explosion"
+    min-required: 1
+    max-required: 3
+    min-xp: 100
+    max-xp: 200
+    weight: 3
+
+  # WalkDistance missions
+  # Supported targets: ANY, WALK, SWIM, FLY
+  move-blocks:
     type: WALK_DISTANCE
     target: ANY
-    display-name: "Walk <amount> Blocks"
+    display-name: "Move <amount> Blocks"
     min-required: 1000
     max-required: 3000
     min-xp: 100
     max-xp: 200
     weight: 8
 
+  swim-blocks:
+    type: WALK_DISTANCE
+    target: SWIM
+    display-name: "Swim <amount> Blocks"
+    min-required: 500
+    max-required: 1500
+    min-xp: 100
+    max-xp: 200
+    weight: 8
+
+  # Other missions
   play-minutes:
     type: PLAY_TIME
     target: ANY

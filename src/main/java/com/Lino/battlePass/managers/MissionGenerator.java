@@ -30,6 +30,7 @@ public class MissionGenerator {
 
             String type = missionSection.getString("type");
             String target = missionSection.getString("target");
+            List<String> additionalTargets = missionSection.getStringList("additional-targets");
             String displayName = missionSection.getString("display-name");
             int minRequired = missionSection.getInt("min-required");
             int maxRequired = missionSection.getInt("max-required");
@@ -37,7 +38,7 @@ public class MissionGenerator {
             int maxXP = missionSection.getInt("max-xp");
             int weight = missionSection.getInt("weight", 10);
 
-            MissionTemplate template = new MissionTemplate(displayName, type, target,
+            MissionTemplate template = new MissionTemplate(displayName, type, target, additionalTargets,
                     minRequired, maxRequired, minXP, maxXP);
 
             weightedTemplates.add(new WeightedMissionTemplate(template, weight, key));
@@ -91,7 +92,7 @@ public class MissionGenerator {
                 .replace("<amount>", String.valueOf(required))
                 .replace("<target>", formatTarget(template.target));
 
-        return new Mission(name, template.type, template.target, required, xpReward);
+        return new Mission(name, template.type, template.target, template.additionalTargets, required, xpReward);
     }
 
     private String formatTarget(String target) {

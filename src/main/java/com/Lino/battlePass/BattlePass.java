@@ -137,11 +137,12 @@ public class BattlePass extends JavaPlugin {
     }
 
     private void checkForUpdates() {
+        if (!configManager.shouldCheckUpdates()) return;
         new BukkitRunnable() {
             @Override
             public void run() {
                 try {
-                    URI uri = new URI("https://api.spigotmc.org/legacy/update.php?resource=125992");
+                    URI uri = new URI("https://api.spigotmc.org/legacy/update.php?resource=" + SPIGOT_RESOURCE_ID);
                     URL url = uri.toURL();
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("GET");

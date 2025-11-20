@@ -1,5 +1,8 @@
 # Battle Pass Configuration
 
+# Need check updates
+check-updates: true
+
 # Season duration in days
 season:
   duration: 30

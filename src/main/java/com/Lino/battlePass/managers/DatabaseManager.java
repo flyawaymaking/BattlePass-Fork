@@ -194,7 +194,7 @@ public class DatabaseManager {
                 }
                 return data;
             } catch (SQLException e) {
-                plugin.getLogger().severe("Failed to load player data for " + uuid.toString() + ". This may be due to a database lock or corruption.");
+                plugin.getLogger().severe("Failed to load player data for " + uuid + ". This may be due to a database lock or corruption.");
                 e.printStackTrace();
                 return null;
             }

@@ -212,4 +212,8 @@ public class ConfigManager {
     public boolean shouldHidePremiumClaimedRewards() {
         return hidePremiumClaimedRewards;
     }
+
+    public boolean shouldCheckUpdates() {
+        return config.getBoolean("check-updates", true);
+    }
 }

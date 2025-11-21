@@ -92,7 +92,7 @@ public class MissionProgressListener implements Listener {
                 if (distance >= 1 && distance < 100) {
                     if (player.isFlying() || player.isGliding()) {
                         plugin.getMissionManager().progressMission(player, "WALK_DISTANCE", "FLY", (int) distance);
-                    } else if (player.isSwimming() || isInWater(player)) {
+                    } else if (player.isSwimming()) {
                         plugin.getMissionManager().progressMission(player, "WALK_DISTANCE", "SWIM", (int) distance);
                     } else if (player.isSneaking()) {
                         plugin.getMissionManager().progressMission(player, "WALK_DISTANCE", "SNEAK", (int) distance);
@@ -106,12 +106,6 @@ public class MissionProgressListener implements Listener {
         } else {
             lastLocations.put(uuid, toLoc);
         }
-    }
-
-    private boolean isInWater(Player player) {
-        Location loc = player.getLocation();
-        Material blockType = loc.getBlock().getType();
-        return blockType == Material.WATER || blockType == Material.BUBBLE_COLUMN;
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

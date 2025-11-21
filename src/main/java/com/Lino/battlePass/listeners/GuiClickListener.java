@@ -28,7 +28,7 @@ public class GuiClickListener implements Listener {
         Player player = (Player) event.getWhoClicked();
 
         boolean isBattlePassGUI = false;
-        for (int i = 1; i <= 6; i++) {
+        for (int i = 1; i <= plugin.getConfigManager().getMaxPage(); i++) {
             if (title.equals(plugin.getMessageManager().getMessage("gui.battlepass", "%page%", String.valueOf(i)))) {
                 isBattlePassGUI = true;
                 break;
@@ -87,7 +87,7 @@ public class GuiClickListener implements Listener {
                 String action = meta.getPersistentDataContainer().get(plugin.getEventManager().getNavigationKey(), PersistentDataType.STRING);
                 if ("previous".equals(action) && currentPage > 1) {
                     plugin.getGuiManager().openBattlePassGUI(player, currentPage - 1);
-                } else if ("next".equals(action) && currentPage < 6) {
+                } else if ("next".equals(action) && currentPage < plugin.getConfigManager().getMaxPage()) {
                     plugin.getGuiManager().openBattlePassGUI(player, currentPage + 1);
                 }
                 return;
@@ -193,13 +193,11 @@ public class GuiClickListener implements Listener {
             data.lastDailyReward = now;
 
             int xpPerLevel = plugin.getConfigManager().getXpPerLevel();
-            boolean leveled = false;
 
-            while (data.xp >= xpPerLevel && data.level < 54) {
+            while (data.xp >= xpPerLevel && data.level < plugin.getConfigManager().getMaxRewardsLevel()) {
                 data.xp -= xpPerLevel;
                 data.level++;
                 data.totalLevels++;
-                leveled = true;
 
                 player.sendMessage(plugin.getMessageManager().getPrefix() +
                         plugin.getMessageManager().getMessage("messages.level-up",

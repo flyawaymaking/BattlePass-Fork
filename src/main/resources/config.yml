@@ -3,6 +3,9 @@
 # Need check updates
 check-updates: true
 
+# Max level your rewards (if you want to add more rewards)
+max-rewards-level: 54
+
 # Season duration in days
 season:
   duration: 30

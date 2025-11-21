@@ -19,7 +19,8 @@ public class GuiManager {
 
     public void openBattlePassGUI(Player player, int page) {
         if (page < 1) page = 1;
-        if (page > 6) page = 6;
+        int maxPage = plugin.getConfigManager().getMaxPage();
+        if (page > maxPage) page = maxPage;
 
         BattlePassGui gui = new BattlePassGui(plugin, player, page);
         gui.open();

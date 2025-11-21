@@ -120,7 +120,7 @@ public class RewardsEditorListener implements Listener {
             int startLevel = (currentPage - 1) * 45 + 1;
             int level = startLevel + slot;
 
-            if (level <= 54) {
+            if (level <= plugin.getConfigManager().getMaxRewardsLevel()) {
                 player.closeInventory();
                 final int finalLevel = level;
                 final boolean finalIsPremium = isPremium;
@@ -135,7 +135,7 @@ public class RewardsEditorListener implements Listener {
             plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
                 new RewardsCategoryGui(plugin, player, finalIsPremium, prevPage).open();
             }, 1L);
-        } else if (slot == 53 && ((currentPage - 1) * 45 + 45) < 54) {
+        } else if (slot == 53 && ((currentPage - 1) * 45 + 45) < plugin.getConfigManager().getMaxRewardsLevel()) {
             player.closeInventory();
             final int nextPage = currentPage + 1;
             final boolean finalIsPremium = isPremium;

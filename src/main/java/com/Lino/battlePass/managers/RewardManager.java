@@ -34,7 +34,7 @@ public class RewardManager {
         FileConfiguration freeConfig = configManager.getBattlePassFreeConfig();
         FileConfiguration premiumConfig = configManager.getBattlePassPremiumConfig();
 
-        for (int i = 1; i <= 54; i++) {
+        for (int i = 1; i <= plugin.getConfigManager().getMaxRewardsLevel(); i++) {
             String levelPath = "level-" + i;
             List<Reward> freeLevel = new ArrayList<>();
             List<Reward> premiumLevel = new ArrayList<>();

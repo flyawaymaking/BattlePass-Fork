@@ -104,7 +104,7 @@ public class MissionProgressTracker {
         MessageManager messageManager = plugin.getMessageManager();
         int xpPerLevel = plugin.getConfigManager().getXpPerLevel();
 
-        while (data.xp >= xpPerLevel && data.level < 54) {
+        while (data.xp >= xpPerLevel && data.level < plugin.getConfigManager().getMaxRewardsLevel()) {
             data.xp -= xpPerLevel;
             data.level++;
             data.totalLevels++;

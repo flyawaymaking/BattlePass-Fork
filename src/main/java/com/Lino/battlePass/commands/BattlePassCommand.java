@@ -267,7 +267,7 @@ public class BattlePassCommand implements CommandExecutor {
                 totalXP = Math.max(0, totalXP - amount);
 
                 int newLevel = 1;
-                while (totalXP >= xpPerLevel && newLevel < 54) {
+                while (totalXP >= xpPerLevel && newLevel < plugin.getConfigManager().getMaxRewardsLevel()) {
                     totalXP -= xpPerLevel;
                     newLevel++;
                 }
@@ -481,7 +481,7 @@ public class BattlePassCommand implements CommandExecutor {
     private void checkLevelUp(Player player, PlayerData data, int xpPerLevel) {
         boolean leveled = false;
 
-        while (data.xp >= xpPerLevel && data.level < 54) {
+        while (data.xp >= xpPerLevel && data.level < plugin.getConfigManager().getMaxRewardsLevel()) {
             data.xp -= xpPerLevel;
             data.level++;
             data.totalLevels++;

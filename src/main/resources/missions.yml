@@ -799,8 +799,8 @@ mission-pools:
     type: WALK_DISTANCE
     target: SWIM
     display-name: "Swim <amount> Blocks"
-    min-required: 500
-    max-required: 1500
+    min-required: 750
+    max-required: 2000
     min-xp: 100
     max-xp: 200
     weight: 8

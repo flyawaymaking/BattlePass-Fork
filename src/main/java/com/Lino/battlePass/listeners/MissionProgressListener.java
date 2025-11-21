@@ -26,6 +26,7 @@ public class MissionProgressListener implements Listener {
 
     private final BattlePass plugin;
     private final Map<UUID, Location> lastLocations = new ConcurrentHashMap<>();
+    private final Map<UUID, Double> distanceBuffer = new ConcurrentHashMap<>();
     private final Set<Material> oreTypes = EnumSet.noneOf(Material.class);
     private final Map<UUID, Map<Location, Long>> recentlyPlacedBlocks = new ConcurrentHashMap<>();
 
@@ -68,9 +69,12 @@ public class MissionProgressListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerMove(PlayerMoveEvent event) {
-        if (event.getFrom().getBlockX() == event.getTo().getBlockX() &&
-                event.getFrom().getBlockY() == event.getTo().getBlockY() &&
-                event.getFrom().getBlockZ() == event.getTo().getBlockZ()) {
+        Location from = event.getFrom();
+        Location to = event.getTo();
+
+        if (from.getBlockX() == to.getBlockX()
+                && from.getBlockY() == to.getBlockY()
+                && from.getBlockZ() == to.getBlockZ()) {
             return;
         }
 
@@ -78,34 +82,51 @@ public class MissionProgressListener implements Listener {
         UUID uuid = player.getUniqueId();
 
         Location last = lastLocations.get(uuid);
-        Location toLoc = event.getTo();
-
-        if (last != null) {
-            if (last.getWorld() == null || toLoc.getWorld() == null ||
-                    !last.getWorld().getName().equals(toLoc.getWorld().getName())) {
-                lastLocations.put(uuid, toLoc);
-                return;
-            }
-
-            try {
-                double distance = last.distance(toLoc);
-                if (distance >= 1 && distance < 100) {
-                    if (player.isFlying() || player.isGliding()) {
-                        plugin.getMissionManager().progressMission(player, "WALK_DISTANCE", "FLY", (int) distance);
-                    } else if (player.isSwimming()) {
-                        plugin.getMissionManager().progressMission(player, "WALK_DISTANCE", "SWIM", (int) distance);
-                    } else if (player.isSneaking()) {
-                        plugin.getMissionManager().progressMission(player, "WALK_DISTANCE", "SNEAK", (int) distance);
-                    } else {
-                        plugin.getMissionManager().progressMission(player, "WALK_DISTANCE", "WALK", (int) distance);
-                    }
-                }
-            } catch (IllegalArgumentException ignored) {
-            }
-            lastLocations.put(uuid, toLoc);
-        } else {
-            lastLocations.put(uuid, toLoc);
+        if (last == null) {
+            lastLocations.put(uuid, to);
+            return;
         }
+
+        if (last.getWorld() == null || to.getWorld() == null
+                || !last.getWorld().getName().equals(to.getWorld().getName())) {
+            lastLocations.put(uuid, to);
+            distanceBuffer.remove(uuid);
+            return;
+        }
+
+        double distance;
+        try {
+            distance = last.distance(to);
+        } catch (IllegalArgumentException e) {
+            lastLocations.put(uuid, to);
+            distanceBuffer.remove(uuid);
+            return;
+        }
+
+        if (distance > 0 && distance < 100) {
+
+            String mode;
+            if (player.isFlying() || player.isGliding()) {
+                mode = "FLY";
+            } else if (player.isSwimming() || player.getLocation().getBlock().isLiquid()) {
+                mode = "SWIM";
+            } else if (player.isSneaking()) {
+                mode = "SNEAK";
+            } else {
+                mode = "WALK";
+            }
+
+            double buf = distanceBuffer.getOrDefault(uuid, 0.0);
+            buf += distance;
+            int whole = (int) buf;
+            if (whole > 0) {
+                plugin.getMissionManager().progressMission(player, "WALK_DISTANCE", mode, whole);
+                buf -= whole;
+            }
+            distanceBuffer.put(uuid, buf);
+        }
+
+        lastLocations.put(uuid, to);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -367,6 +388,7 @@ public class MissionProgressListener implements Listener {
 
     public void cleanupPlayer(UUID uuid) {
         lastLocations.remove(uuid);
+        distanceBuffer.remove(uuid);
         recentlyPlacedBlocks.remove(uuid);
     }
 }

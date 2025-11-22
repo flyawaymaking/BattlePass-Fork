@@ -39,11 +39,8 @@ public class MissionEditorListener implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if (!(event.getWhoClicked() instanceof Player)) return;
-        Player player = (Player) event.getWhoClicked();
+        if (!(event.getWhoClicked() instanceof Player player)) return;
         String title = ChatColor.stripColor(event.getView().getTitle());
-
-        if (title == null) return;
 
         if (title.startsWith("Mission Editor")) {
             event.setCancelled(true);
@@ -116,7 +113,7 @@ public class MissionEditorListener implements Listener {
         if (slot == 12) {
             ConfigurationSection section = plugin.getConfigManager().getMissionsConfig().getConfigurationSection("mission-pools." + key);
             if (section != null) {
-                String missionType = section.getString("type");
+                String missionType = section.getString("type", "UNKNOWN");
                 isTargetRequired = plugin.getMissionEditorManager().isTargetRequired(missionType);
             }
         }

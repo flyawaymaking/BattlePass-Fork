@@ -27,7 +27,7 @@ public class MissionEditorManager {
     }
 
     public void openMissionEditor(Player player, int page) {
-        editingStates.remove(player.getUniqueId()); // Pulisce stati precedenti
+        editingStates.remove(player.getUniqueId());
         new MissionEditorGui(plugin, player, page).open();
     }
 
@@ -36,7 +36,7 @@ public class MissionEditorManager {
     }
 
     public void openMissionDetails(Player player, String missionKey) {
-        editingStates.remove(player.getUniqueId()); // Pulisce stati precedenti
+        editingStates.remove(player.getUniqueId());
         new MissionDetailsGui(plugin, player, missionKey).open();
     }
 
@@ -72,11 +72,9 @@ public class MissionEditorManager {
 
         config.set(path + ".type", newType);
 
-        // Se il nuovo tipo non richiede target, lo impostiamo su ANY automaticamente
         if (!isTargetRequired(newType)) {
             config.set(path + ".target", "ANY");
         } else {
-            // Imposta un target di default valido per evitare configurazioni rotte
             config.set(path + ".target", getDefaultTarget(newType));
         }
 
@@ -162,7 +160,7 @@ public class MissionEditorManager {
 
         } catch (NumberFormatException e) {
             player.sendMessage(plugin.getMessageManager().getPrefix() + "§cInvalid number format!");
-            editingStates.put(player.getUniqueId(), state); // Restore state
+            editingStates.put(player.getUniqueId(), state);
         } catch (Exception e) {
             player.sendMessage(plugin.getMessageManager().getPrefix() + "§cError updating value!");
             e.printStackTrace();
@@ -192,30 +190,21 @@ public class MissionEditorManager {
     }
 
     private String getDefaultTarget(String type) {
-        switch (type) {
-            case "KILL_MOB": return "ZOMBIE";
-            case "MINE_BLOCK": case "BREAK_BLOCK": case "PLACE_BLOCK": return "STONE";
-            case "CRAFT_ITEM": case "EAT_ITEM": return "BREAD";
-            case "FISH_ITEM": return "COD";
-            case "BREED_ANIMAL": case "TAME_ANIMAL": case "SHEAR_SHEEP": return "SHEEP";
-            default: return "ANY";
-        }
+        return switch (type) {
+            case "KILL_MOB" -> "ZOMBIE";
+            case "MINE_BLOCK", "BREAK_BLOCK", "PLACE_BLOCK" -> "STONE";
+            case "CRAFT_ITEM", "EAT_ITEM" -> "BREAD";
+            case "FISH_ITEM" -> "COD";
+            case "BREED_ANIMAL", "TAME_ANIMAL", "SHEAR_SHEEP" -> "SHEEP";
+            default -> "ANY";
+        };
     }
 
     public boolean isTargetRequired(String type) {
-        switch (type) {
-            case "WALK_DISTANCE":
-            case "PLAY_TIME":
-            case "GAIN_XP":
-            case "DAMAGE_DEALT":
-            case "DAMAGE_TAKEN":
-            case "DEATH":
-            case "TRADE_VILLAGER":
-            case "ENCHANT_ITEM":
-                return false;
-            default:
-                return true;
-        }
+        return switch (type) {
+            case "PLAY_TIME", "GAIN_XP" -> false;
+            default -> true;
+        };
     }
 
     public boolean isEditing(UUID uuid) {

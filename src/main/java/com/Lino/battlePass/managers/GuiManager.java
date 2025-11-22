@@ -20,7 +20,7 @@ public class GuiManager {
     public void openBattlePassGUI(Player player, int page) {
         if (page < 1) page = 1;
 
-        int maxLevel = rewardManager.getMaxLevel();
+        int maxLevel = plugin.getRewardManager().getMaxLevel();
         int maxPages = (int) Math.ceil(maxLevel / 9.0);
         if (maxPages < 1) maxPages = 1;
 

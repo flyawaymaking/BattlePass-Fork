@@ -104,7 +104,6 @@ public class MissionsGui extends BaseGui {
         gui.setItem(45, resetButton);
     }
 
-    // NEW METHOD
     private void setupMissionEditorButton(Inventory gui) {
         ItemStack editButton = new ItemStack(Material.WRITABLE_BOOK);
         ItemMeta meta = editButton.getItemMeta();

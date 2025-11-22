@@ -6,7 +6,6 @@ import com.Lino.battlePass.models.PlayerData;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -70,7 +69,7 @@ public class BattlePassExpansion extends PlaceholderExpansion {
                 return String.valueOf(plugin.getConfigManager().getXpPerLevel());
 
             case "xp_progress":
-                return String.valueOf(data.xp) + "/" + plugin.getConfigManager().getXpPerLevel();
+                return data.xp + "/" + plugin.getConfigManager().getXpPerLevel();
 
             case "xp_percentage":
                 int percentage = (data.xp * 100) / plugin.getConfigManager().getXpPerLevel();
@@ -91,7 +90,6 @@ public class BattlePassExpansion extends PlaceholderExpansion {
 
             case "available_rewards":
                 if (player.isOnline()) {
-                    Player onlinePlayer = player.getPlayer();
                     return String.valueOf(plugin.getRewardManager().countAvailableRewards(data));
                 }
                 return "0";

@@ -574,7 +574,7 @@ public class DatabaseManager {
                 e.printStackTrace();
             } finally {
                 if (shouldClose && conn != null) {
-                    try { conn.close(); } catch (SQLException e) {}
+                    try { conn.close(); } catch (SQLException ignored) {}
                 }
             }
             return loadedMissions;
@@ -599,7 +599,7 @@ public class DatabaseManager {
             e.printStackTrace();
         } finally {
             if (shouldClose && conn != null) {
-                try { conn.close(); } catch (SQLException e) {}
+                try { conn.close(); } catch (SQLException ignored) {}
             }
         }
         return date;
@@ -627,7 +627,7 @@ public class DatabaseManager {
                 e.printStackTrace();
             } finally {
                 if (shouldClose && conn != null) {
-                    try { conn.close(); } catch (SQLException e) {}
+                    try { conn.close(); } catch (SQLException ignored) {}
                 }
             }
         }, databaseExecutor);
@@ -648,7 +648,7 @@ public class DatabaseManager {
                 e.printStackTrace();
             } finally {
                 if (shouldClose && conn != null) {
-                    try { conn.close(); } catch (SQLException e) {}
+                    try { conn.close(); } catch (SQLException ignored) {}
                 }
             }
         }, databaseExecutor);

@@ -16,8 +16,6 @@ This fork includes the following enhancements:
 
 ## New Features & Improvements
 
-### 0. The global limit of `54` levels has been removed, now the limit can be set in the config `max-rewards-level: 54`
-
 ### 1. Added support for **additional targets** for task completion
 This allows tasks to be more generic and flexible. Example:
 

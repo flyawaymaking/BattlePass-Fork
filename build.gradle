@@ -32,5 +32,5 @@ dependencies {
 }
 
 tasks.jar {
-    archiveBaseName.set("BattlePass")
+    archiveBaseName.set("BattlePass-Fork")
 }

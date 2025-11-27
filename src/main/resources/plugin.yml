@@ -6,10 +6,6 @@ author: Lino, golovin12
 website: https://github.com/flyawaymaking/BattlePass-Fork
 softdepend: [PlaceholderAPI, MythicMobs]
 
-libraries:
-  - com.zaxxer:HikariCP:5.1.0
-  - com.mysql:mysql-connector-j:8.3.0
-
 commands:
   battlepass:
     description: Open the BattlePass GUI or manage battle pass system

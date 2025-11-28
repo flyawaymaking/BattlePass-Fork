@@ -1,8 +1,6 @@
 # Battle Pass Configuration
 
-# Need check updates
-check-updates: true
-
+# Season configuration
 season:
   # Reset type: MONTH_START (reset at beginning of month) or DURATION (reset after X days)
   reset-type: "DURATION"

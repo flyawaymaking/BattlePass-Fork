@@ -44,7 +44,6 @@ public class BattlePass extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Salva i file solo se non esistono per evitare warning
         saveDefaultConfig();
         saveResourceIfNotExists("missions.yml");
         saveResourceIfNotExists("messages.yml");
@@ -132,7 +131,7 @@ public class BattlePass extends JavaPlugin {
             coinsDistributionTask.cancel();
         }
         if (playerDataManager != null) {
-            playerDataManager.saveAllPlayers();
+            playerDataManager.saveAllPlayersSync();
         }
         if (missionManager != null) {
             missionManager.shutdown();

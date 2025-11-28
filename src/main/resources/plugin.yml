@@ -1,5 +1,5 @@
 name: BattlePass-Fork
-version: '7.5.3'
+version: '7.8.1'
 main: com.Lino.battlePass.BattlePass
 api-version: '1.21'
 author: Lino, golovin12

@@ -6,7 +6,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,9 +20,10 @@ public class ConfigManager {
 
     private int xpPerLevel = 200;
     private int dailyMissionsCount = 7;
+    private String seasonResetType = "DURATION";
     private int seasonDuration = 30;
     private int dailyRewardXP = 200;
-    private final List<Integer> coinsDistribution = new ArrayList<>();
+    private List<Integer> coinsDistribution = new ArrayList<>();
     private boolean shopEnabled = true;
     private boolean resetCoinsOnSeasonEnd = true;
     private int coinsDistributionHours = 24;
@@ -57,6 +57,7 @@ public class ConfigManager {
     public void reload() {
         config = plugin.getConfig();
         xpPerLevel = config.getInt("experience.xp-per-level", 200);
+        seasonResetType = config.getString("season.reset-type", "DURATION");
         seasonDuration = config.getInt("season.duration", 30);
         dailyRewardXP = config.getInt("daily-reward.xp", 200);
         shopEnabled = config.getBoolean("shop.enabled", true);
@@ -164,26 +165,12 @@ public class ConfigManager {
         return dailyMissionsCount;
     }
 
-    public LocalDateTime calculateSeasonEndDate() {
-        String resetType = getConfig().getString("season.reset-type", "DURATION");
-        int duration = seasonDuration;
+    public String getSeasonResetType() {
+        return seasonResetType;
+    }
 
-        LocalDateTime now = LocalDateTime.now();
-
-        if ("MONTH_START".equalsIgnoreCase(resetType)) {
-            return now.plusMonths(1)
-                    .withDayOfMonth(1)
-                    .withHour(0)
-                    .withMinute(0)
-                    .withSecond(0)
-                    .withNano(0);
-        } else {
-            return now.plusDays(duration)
-                    .withHour(0)
-                    .withMinute(0)
-                    .withSecond(0)
-                    .withNano(0);
-        }
+    public int getSeasonDuration() {
+        return seasonDuration;
     }
 
     public int getDailyRewardXP() {

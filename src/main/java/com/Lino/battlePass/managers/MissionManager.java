@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 
 public class MissionManager {
 
@@ -21,7 +20,6 @@ public class MissionManager {
     private final MissionGenerator missionGenerator;
     private final MissionProgressTracker progressTracker;
     private final MissionResetHandler resetHandler;
-    private boolean missionsInitialised = false;
 
     private volatile List<Mission> dailyMissions = Collections.synchronizedList(new ArrayList<>());
     private String currentMissionDate;
@@ -37,76 +35,66 @@ public class MissionManager {
     }
 
     public void initialize() {
-        databaseManager.loadSeasonData()
-                .thenApply(this::handleSeasonData)
-                .thenCompose(v -> databaseManager.loadDailyMissions())
-                .thenCompose(this::handleDailyMissions)
-                .whenComplete((v, ex) -> {
-                    if (ex != null) {
-                        ex.printStackTrace();
-                        return;
-                    }
-                    missionsInitialised = true;
-                });
-    }
+        databaseManager.loadSeasonData().thenAccept(data -> {
+            if (data.containsKey("endDate")) {
+                resetHandler.setSeasonEndDate((LocalDateTime) data.get("endDate"));
+                if (data.containsKey("missionResetTime")) {
+                    resetHandler.setNextMissionReset((LocalDateTime) data.get("missionResetTime"));
+                }
+                if (data.containsKey("currentMissionDate")) {
+                    currentMissionDate = (String) data.get("currentMissionDate");
+                }
 
-    private Void handleSeasonData(Map<String, Object> data) {
-        if (data.containsKey("endDate")) {
-            resetHandler.setSeasonEndDate((LocalDateTime) data.get("endDate"));
-
-            if (data.containsKey("missionResetTime"))
-                resetHandler.setNextMissionReset((LocalDateTime) data.get("missionResetTime"));
-
-            if (data.containsKey("currentMissionDate"))
-                currentMissionDate = (String) data.get("currentMissionDate");
-
-            if (LocalDateTime.now().isAfter(resetHandler.getSeasonEndDate())) {
-                Bukkit.getScheduler().runTask(plugin, this::resetSeason);
-                return null;
+                if (LocalDateTime.now().isAfter(resetHandler.getSeasonEndDate())) {
+                    Bukkit.getScheduler().runTask(plugin, () -> resetSeason());
+                    return;
+                }
+            } else {
+                resetHandler.calculateSeasonEndDate();
+                currentMissionDate = LocalDateTime.now().toLocalDate().toString();
+                resetHandler.calculateNextReset();
+                saveSeasonData();
             }
 
-        } else {
-            LocalDateTime seasonEndDate = configManager.calculateSeasonEndDate();
-            resetHandler.setSeasonEndDate(seasonEndDate);
-
-            currentMissionDate = LocalDateTime.now().toLocalDate().toString();
-            resetHandler.calculateNextReset();
-            saveSeasonData();
-        }
-        return null;
+            loadMissionsAfterSeasonData();
+        }).exceptionally(ex -> {
+            plugin.getLogger().severe("Failed to load season data: " + ex.getMessage());
+            ex.printStackTrace();
+            return null;
+        });
     }
 
-    private CompletableFuture<Void> handleDailyMissions(List<Mission> missions) {
-        LocalDateTime now = LocalDateTime.now();
-        if (currentMissionDate == null)
-            currentMissionDate = now.toLocalDate().toString();
+    private void loadMissionsAfterSeasonData() {
+        databaseManager.loadDailyMissions().thenAccept(missions -> {
+            LocalDateTime now = LocalDateTime.now();
 
-        boolean needNew = missions.isEmpty() ||
-                (resetHandler.getNextMissionReset() != null && now.isAfter(resetHandler.getNextMissionReset()));
-
-        if (needNew) {
-            if (resetHandler.getNextMissionReset() != null && now.isAfter(resetHandler.getNextMissionReset())) {
+            if (currentMissionDate == null) {
                 currentMissionDate = now.toLocalDate().toString();
-                databaseManager.clearOldMissionProgress(currentMissionDate);
-                progressTracker.resetProgress();
             }
 
-            generateDailyMissions();
-            resetHandler.calculateNextReset();
-            saveDailyMissions();
-            saveSeasonData();
+            boolean needNewMissions = missions.isEmpty() ||
+                    (resetHandler.getNextMissionReset() != null && now.isAfter(resetHandler.getNextMissionReset()));
 
-            return CompletableFuture.completedFuture(null);
-        }
+            if (needNewMissions) {
+                if (resetHandler.getNextMissionReset() != null && now.isAfter(resetHandler.getNextMissionReset())) {
+                    currentMissionDate = now.toLocalDate().toString();
+                    databaseManager.clearOldMissionProgress(currentMissionDate);
+                    progressTracker.resetProgress();
+                }
 
-        dailyMissions = new ArrayList<>(missions);
+                generateDailyMissions();
+                resetHandler.calculateNextReset();
+                saveDailyMissions();
+                saveSeasonData();
+            } else {
+                dailyMissions = new ArrayList<>(missions);
 
-        if (resetHandler.getNextMissionReset() == null) {
-            resetHandler.calculateNextReset();
-            saveSeasonData();
-        }
-
-        return CompletableFuture.completedFuture(null);
+                if (resetHandler.getNextMissionReset() == null) {
+                    resetHandler.calculateNextReset();
+                    saveSeasonData();
+                }
+            }
+        });
     }
 
     public void recalculateResetTimeOnReload() {
@@ -247,6 +235,6 @@ public class MissionManager {
     }
 
     public boolean isInitialized() {
-        return missionsInitialised;
+        return currentMissionDate != null && !dailyMissions.isEmpty();
     }
 }

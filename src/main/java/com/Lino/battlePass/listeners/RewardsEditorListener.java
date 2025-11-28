@@ -37,7 +37,7 @@ public class RewardsEditorListener implements Listener {
     public void onInventoryClick(InventoryClickEvent event) {
         if (!BaseHolder.isBattlePassInventory(event.getView().getTopInventory())) return;
 
-        if (!(event.getWhoClicked() instanceof Player)) return;
+        if (!(event.getWhoClicked() instanceof Player player)) return;
 
         String title = ChatColor.stripColor(event.getView().getTitle());
 
@@ -56,6 +56,8 @@ public class RewardsEditorListener implements Listener {
 
     @EventHandler
     public void onInventoryDrag(InventoryDragEvent event) {
+        if (!BaseHolder.isBattlePassInventory(event.getView().getTopInventory())) return;
+
         if (!(event.getWhoClicked() instanceof Player)) return;
 
         String title = ChatColor.stripColor(event.getView().getTitle());
@@ -75,6 +77,8 @@ public class RewardsEditorListener implements Listener {
 
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event) {
+        if (!BaseHolder.isBattlePassInventory(event.getView().getTopInventory())) return;
+
         if (!(event.getPlayer() instanceof Player player)) return;
 
         String title = ChatColor.stripColor(event.getView().getTitle());

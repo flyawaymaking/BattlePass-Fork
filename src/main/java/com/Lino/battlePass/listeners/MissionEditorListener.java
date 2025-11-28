@@ -40,11 +40,8 @@ public class MissionEditorListener implements Listener {
     public void onInventoryClick(InventoryClickEvent event) {
         if (!BaseHolder.isBattlePassInventory(event.getView().getTopInventory())) return;
 
-        if (!(event.getWhoClicked() instanceof Player)) return;
-        Player player = (Player) event.getWhoClicked();
+        if (!(event.getWhoClicked() instanceof Player player)) return;
         String title = ChatColor.stripColor(event.getView().getTitle());
-
-        if (title == null) return;
 
         if (title.startsWith("Mission Editor")) {
             if (!title.contains("Page ")) return;

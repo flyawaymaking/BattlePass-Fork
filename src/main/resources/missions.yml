@@ -103,6 +103,18 @@ mission-pools:
     weight: 5
 
   # Mining Missions
+  mine-copper:
+    type: MINE_BLOCK
+    target: COPPER_ORE
+    additional-targets:
+      - DEEPSLATE_COPPER_ORE
+    display-name: "Mine <amount> Copper Ore"
+    min-required: 30
+    max-required: 100
+    min-xp: 100
+    max-xp: 200
+    weight: 10
+
   mine-coal:
     type: MINE_BLOCK
     target: COAL_ORE
@@ -380,6 +392,7 @@ mission-pools:
       - NETHERITE_SWORD
       - IRON_SWORD
       - GOLDEN_SWORD
+      - COPPER_SWORD
       - STONE_SWORD
       - WOODEN_SWORD
     display-name: "Enchant <amount> swords"
@@ -408,6 +421,10 @@ mission-pools:
       - GOLDEN_CHESTPLATE
       - GOLDEN_LEGGINGS
       - GOLDEN_BOOTS
+      - COPPER_HELMET
+      - COPPER_CHESTPLATE
+      - COPPER_LEGGINGS
+      - COPPER_BOOTS
       - LEATHER_HELMET
       - LEATHER_CHESTPLATE
       - LEATHER_LEGGINGS

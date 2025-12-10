@@ -5,7 +5,7 @@ This is a **fork** of the original BattlePass plugin by [lino9999](https://githu
 ## ⚠️ Important Notes:
 
 ### Version Compatibility
-- **This build was compiled for Paper 1.21.8**
+- **This build was compiled for Paper 1.21.10**
 - Compatibility with other server versions or platforms is **NOT guaranteed**
 - Use on different versions may require additional modifications
 

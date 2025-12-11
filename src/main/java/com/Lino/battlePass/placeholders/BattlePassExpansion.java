@@ -205,7 +205,8 @@ public class BattlePassExpansion extends PlaceholderExpansion {
             if (parts.length > 1) {
                 switch (parts[1].toLowerCase()) {
                     case "name":
-                        return Bukkit.getOfflinePlayer(topPlayer.uuid).getName();
+                        OfflinePlayer offline = Bukkit.getOfflinePlayer(topPlayer.uuid);
+                        return offline.getName() != null ? offline.getName() : "Unknown";
                     case "level":
                         return String.valueOf(topPlayer.level);
                     case "xp":
@@ -217,7 +218,8 @@ public class BattlePassExpansion extends PlaceholderExpansion {
                 }
             }
 
-            return Bukkit.getOfflinePlayer(topPlayer.uuid).getName();
+            OfflinePlayer offline = Bukkit.getOfflinePlayer(topPlayer.uuid);
+            return offline.getName() != null ? offline.getName() : "Unknown";
 
         } catch (NumberFormatException ignored) {
         }

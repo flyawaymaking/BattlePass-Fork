@@ -3,6 +3,7 @@ package com.Lino.battlePass.tasks;
 import com.Lino.battlePass.BattlePass;
 import com.Lino.battlePass.models.PlayerData;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -50,7 +51,8 @@ public class CoinsDistributionTask extends BukkitRunnable {
                     PlayerData topPlayer = topPlayers.get(i);
                     int coins = coinAmounts.get(i);
 
-                    String playerName = Bukkit.getOfflinePlayer(topPlayer.uuid).getName();
+                    OfflinePlayer offline = Bukkit.getOfflinePlayer(topPlayer.uuid);
+                    String playerName = offline.getName() != null ? offline.getName() : "Unknown";
                     String rank = String.valueOf(i + 1);
 
                     Bukkit.broadcastMessage(plugin.getMessageManager().getMessage("messages.coins.distribution-player",

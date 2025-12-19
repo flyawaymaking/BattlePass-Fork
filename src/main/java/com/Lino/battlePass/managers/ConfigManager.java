@@ -237,10 +237,6 @@ public class ConfigManager {
         return hidePremiumClaimedRewards;
     }
 
-    public boolean shouldCheckUpdates() {
-        return config.getBoolean("check-updates", true);
-    }
-
     public String getDatabaseType() {
         return databaseType;
     }

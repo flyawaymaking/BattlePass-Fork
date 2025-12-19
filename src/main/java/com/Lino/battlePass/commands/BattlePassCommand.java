@@ -405,7 +405,9 @@ public class BattlePassCommand implements CommandExecutor {
         }
 
         if (args.length < 2) {
-            sender.sendMessage(plugin.getMessageManager().getPrefix() + "Usage: /battlepass " + (exclude ? "excludefromtop" : "includetop") + " <player>");
+            sender.sendMessage(plugin.getMessageManager().getPrefix() +
+                    plugin.getMessageManager().getMessage("messages.usage.change-top-status",
+                            "%subcommand%", exclude ? "excludefromtop" : "includetop"));
             return true;
         }
 

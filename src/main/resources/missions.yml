@@ -1,5 +1,36 @@
+# Battle Pass Missions Configuration
+#
+# You can create any type of mission with customizable requirements
+#
+# Mission Types:
+# - KILL_MOB: Kill a specific mob type
+# - BREAK_BLOCK: Сломай a specific block type
+# - MINE_BLOCK: Добудь a specific block type (for ores, only counts if item drops)
+# - PLACE_BLOCK: Поставь a specific block type
+# - CRAFT_ITEM: Скрафти a specific item
+# - FISH_ITEM: Вылови a specific item
+# - ENCHANT_ITEM: Зачаруй any item
+# - BREED_ANIMAL: Разведи a specific animal type
+# - TAME_ANIMAL: Приручи a specific animal type
+# - TRADE_VILLAGER: Trade with villagers
+# - KILL_PLAYER: Kill players
+# - DEATH: Die a certain number of times
+# - DAMAGE_DEALT: Deal damage to entities
+# - DAMAGE_TAKEN: Take damage
+# - WALK_DISTANCE: Walk a certain distance in blocks
+# - PLAY_TIME: Play for a certain amount of minutes
+#
+# Each mission pool will have missions randomly selected from it daily
+# The 'weight' determines how likely a mission is to be selected
+#
+# Available placeholders:
+# <amount> - The required amount for the mission
+# <target> - The target mob/block/item name
+
+# Number of daily missions to generate
 daily-missions-count: 7
 
+# Mission pools - missions will be randomly selected from these
 mission-pools:
   # Combat Missions - Common Mobs
   kill-zombies:
@@ -222,6 +253,20 @@ mission-pools:
     max-xp: 180
     weight: 9
 
+  break-jungle-logs:
+    type: BREAK_BLOCK
+    target: JUNGLE_LOG
+    additional-targets:
+      - STRIPPED_JUNGLE_LOG
+      - JUNGLE_WOOD
+      - STRIPPED_JUNGLE_WOOD
+    display-name: "Break <amount> Jungle Logs"
+    min-required: 64
+    max-required: 200
+    min-xp: 110
+    max-xp: 190
+    weight: 8
+
   break-stone:
     type: BREAK_BLOCK
     target: STONE
@@ -249,6 +294,16 @@ mission-pools:
     min-xp: 80
     max-xp: 160
     weight: 9
+
+  break-gravel:
+    type: BREAK_BLOCK
+    target: GRAVEL
+    display-name: "Break <amount> Gravel"
+    min-required: 100
+    max-required: 250
+    min-xp: 110
+    max-xp: 220
+    weight: 8
 
   # Eat
   eat-bread:
@@ -292,10 +347,22 @@ mission-pools:
     max-xp: 150
     weight: 8
 
-  place-wood:
+  place-planks:
     type: PLACE_BLOCK
     target: OAK_PLANKS
-    display-name: "Place <amount> Oak Planks"
+    additional-targets:
+      - SPRUCE_PLANKS
+      - BIRCH_PLANKS
+      - JUNGLE_PLANKS
+      - ACACIA_PLANKS
+      - DARK_OAK_PLANKS
+      - MANGROVE_PLANKS
+      - CHERRY_PLANKS
+      - BAMBOO_PLANKS
+      - CRIMSON_PLANKS
+      - WARPED_PLANKS
+      - PALE_OAK_PLANKS
+    display-name: "Place <amount> Planks"
     min-required: 64
     max-required: 200
     min-xp: 80

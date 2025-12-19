@@ -20,6 +20,7 @@ messages:
     add-coins: "<gradient:#FFE66D:#FF6B6B>Usage:</gradient> &f/battlepass addcoins <player> <amount>"
     remove-coins: "<gradient:#FFE66D:#FF6B6B>Usage:</gradient> &f/battlepass removecoins <player> <amount>"
     giveitem: "<gradient:#FFE66D:#FF6B6B>Usage:</gradient> &f/battlepass giveitem <type> <player> <amount>"
+    change-top-status: "<gradient:#FFE66D:#FF6B6B>Usage:</gradient> &f/battlepass %subcommand% <player>"
     reset-player: "<gradient:#FFE66D:#FF6B6B>Usage:</gradient> &f/battlepass resetplayer <player>"
 
   reset-player:

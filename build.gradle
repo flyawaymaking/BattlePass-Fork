@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'com.Lino.battlePass.BattlePass'
-version = 'v7.9.2'
+version = 'v8.0.1'
 
 java {
     toolchain {
@@ -27,7 +27,7 @@ dependencies {
     compileOnly 'io.papermc.paper:paper-api:1.21.10-R0.1-SNAPSHOT'
     implementation "com.zaxxer:HikariCP:7.0.2"
     implementation "com.mysql:mysql-connector-j:9.5.0"
-    compileOnly 'me.clip:placeholderapi:2.11.6'
+    compileOnly 'me.clip:placeholderapi:2.11.7'
     compileOnly 'io.lumine:Mythic-Dist:5.9.5'
 }
 

@@ -13,12 +13,7 @@ import com.Lino.battlePass.tasks.BattlePassTask;
 import com.Lino.battlePass.tasks.CoinsDistributionTask;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URL;
 
 public class BattlePass extends JavaPlugin {
 
@@ -98,7 +93,6 @@ public class BattlePass extends JavaPlugin {
                             });
 
                             registerPlaceholders();
-                            checkForUpdates();
 
                             getLogger().info("✓ Battle Pass enabled successfully!");
                             this.cancel();
@@ -147,60 +141,6 @@ public class BattlePass extends JavaPlugin {
             placeholderExpansion.register();
             getLogger().info("PlaceholderAPI support enabled!");
         }
-    }
-
-    private void checkForUpdates() {
-        if (!configManager.shouldCheckUpdates()) return;
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                try {
-                    URI uri = new URI("https://api.spigotmc.org/legacy/update.php?resource=" + SPIGOT_RESOURCE_ID);
-                    URL url = uri.toURL();
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("GET");
-                    connection.setConnectTimeout(5000);
-                    connection.setReadTimeout(5000);
-                    connection.setRequestProperty("User-Agent", "BattlePass-UpdateChecker");
-
-                    if (connection.getResponseCode() == 200) {
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                        String version = reader.readLine();
-                        reader.close();
-
-                        if (version != null && !version.trim().isEmpty()) {
-                            String currentVersion = getPluginMeta().getVersion();
-
-                            if (!version.equals(currentVersion)) {
-                                updateAvailable = true;
-                                latestVersion = version;
-
-                                Bukkit.getScheduler().runTask(BattlePass.this, () -> {
-                                    getLogger().warning("=====================================");
-                                    getLogger().warning("  A new version is available!");
-                                    getLogger().warning("  Current version: " + currentVersion);
-                                    getLogger().warning("  Latest version: " + version);
-                                    getLogger().warning("  Download at: https://www.spigotmc.org/resources/" + SPIGOT_RESOURCE_ID);
-                                    getLogger().warning("=====================================");
-                                });
-                            } else {
-                                Bukkit.getScheduler().runTask(BattlePass.this, () -> {
-                                    getLogger().info("You are running the latest version!");
-                                });
-                            }
-                        }
-                    } else {
-                        getLogger().info("Could not check for updates: Response code " + connection.getResponseCode());
-                    }
-
-                    connection.disconnect();
-                } catch (Exception e) {
-                    Bukkit.getScheduler().runTask(BattlePass.this, () -> {
-                        getLogger().info("Could not check for updates: " + e.getMessage());
-                    });
-                }
-            }
-        }.runTaskAsynchronously(this);
     }
 
     public void reload() {

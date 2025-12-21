@@ -29,6 +29,7 @@
 
 # Number of daily missions to generate
 daily-missions-count: 7
+# Number of daily additional missions for players with a premium pass
 premium-additional-missions: 2
 
 # Mission pools - missions will be randomly selected from these

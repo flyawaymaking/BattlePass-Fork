@@ -13,6 +13,7 @@ This is a **fork** of the original BattlePass plugin by [lino9999](https://githu
 ### 📋 Modifications from Original
 This fork includes the following enhancements:
 - **Expanded mission functionality** with additional features and mission types
+- Additional missions for players with premium pass
 - Various improvements and customizations beyond the original codebase
 
 ## 🌟 Why Choose BattlePass-Fork?
@@ -34,7 +35,7 @@ Unlike other plugins, **BattlePass-Fork** focuses on ease of use for admins and 
     * **MySQL**: Full support for syncing player progress, XP, and rewards across a BungeeCord/Velocity network.
 
 * **📜 Dynamic Missions** *(Enhanced in this fork)*
-    * **7 Daily Missions** generated randomly every day.
+    * **7 Daily Missions** (can customize) generated randomly every day.
     * **Extended Mission Types** with additional targets and parameters:
         - Kill specific mob types with `additional-targets` support
         - Trade with specific villager professions
@@ -42,6 +43,7 @@ Unlike other plugins, **BattlePass-Fork** focuses on ease of use for admins and 
         - Deal/take damage from specific sources
         - Track specific types of player movement
         - And more!
+    * **2 Premium Missions** (can customize) generated every day for players with premium pass.
 
 * **💰 Battle Coins & Shop**
     * Players earn **Battle Coins** by ranking in the daily leaderboard.
@@ -108,6 +110,10 @@ Supported targets: `ANY`, `WALK`, `SWIM`, `FLY`, `SNEAK`.
 - Flexible damage amount requirements
 - Multiple mob/entity targeting
 - Profession-specific villager interactions
+
+### 7. **Extended Mission Parameters**
+- Added the ability to add additional missions to players with a premium pass.
+- `missions.yml` - `premium-additional-missions: 2`
 
 
 ## 📥 Installation

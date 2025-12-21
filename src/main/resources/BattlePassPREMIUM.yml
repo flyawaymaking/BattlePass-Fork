@@ -241,3 +241,30 @@ level-54:
     announce:
       command: "say <player> has become a LEGEND by completing the Premium Battle Pass!"
       display: "Legendary Achievement"
+level-57:
+  command: "eco give <player> 50000"
+  display: "$50,000"
+level-60:
+  command: "eco give <player> 50000"
+  display: "$50,000"
+level-63:
+  command: "eco give <player> 50000"
+  display: "$50,000"
+level-66:
+  command: "eco give <player> 50000"
+  display: "$50,000"
+level-69:
+  command: "eco give <player> 50000"
+  display: "$50,000"
+level-72:
+  command: "eco give <player> 50000"
+  display: "$50,000"
+level-75:
+  command: "eco give <player> 50000"
+  display: "$50,000"
+level-78:
+  command: "eco give <player> 50000"
+  display: "$50,000"
+level-81:
+  command: "eco give <player> 50000"
+  display: "$50,000"

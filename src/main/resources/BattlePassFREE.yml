@@ -3,6 +3,7 @@
 # Single item reward:
 #   level-X:
 #     material: DIAMOND
+#     display: x5 Diamonds
 #     amount: 5
 #
 # Command reward:
@@ -15,6 +16,7 @@
 #     items:
 #       reward1:
 #         material: DIAMOND
+#         display: x5 Diamonds
 #         amount: 5
 #       reward2:
 #         command: "kit vip <player>"
@@ -24,78 +26,98 @@
 
 level-1:
   material: IRON_INGOT
+  display: x16 Iron Ingot
   amount: 16
 level-2:
   material: IRON_INGOT
+  display: x8 Iron Ingot
   amount: 8
 level-3:
   material: COAL
+  display: x32 Coal
   amount: 32
 level-4:
   material: REDSTONE
+  display: x16 Redstone
   amount: 16
 level-5:
   items:
     item1:
       material: LAPIS_LAZULI
+      display: x16 Lapis Lazuli
       amount: 16
     item2:
       material: EXPERIENCE_BOTTLE
+      display: x8 Experience Bottle
       amount: 8
     money:
       command: "eco give <player> 1000"
       display: "$1000"
 level-6:
   material: EMERALD
+  display: x4 Emerald
   amount: 4
 level-7:
   material: DIAMOND
+  display: x2 Diamond
   amount: 2
 level-8:
   material: IRON_BLOCK
+  display: x2 Iron Block
   amount: 2
 level-9:
   material: GOLD_BLOCK
+  display: x1 Gold Block
   amount: 1
 level-10:
   command: "eco give <player> 5000"
   display: "$5000 Money"
 level-11:
   material: ENDER_PEARL
+  display: x8 Ender Pearl
   amount: 8
 level-12:
   material: BLAZE_ROD
+  display: x4 Blaze Rod
   amount: 4
 level-13:
   material: GHAST_TEAR
+  display: x2 Ghast Tear
   amount: 2
 level-14:
   material: MAGMA_CREAM
+  display: x8 Magma Cream
   amount: 8
 level-15:
   items:
     bottles:
       material: EXPERIENCE_BOTTLE
+      display: x16 Experience Bottle
       amount: 16
     money:
       command: "eco give <player> 2500"
       display: "$2500"
 level-16:
   material: QUARTZ
+  display: x32 Quartz
   amount: 32
 level-17:
   material: GLOWSTONE
+  display: x16 Glowstone
   amount: 16
 level-18:
   material: PRISMARINE_SHARD
+  display: x16 Prismarine Shard
   amount: 16
 level-19:
   material: PRISMARINE_CRYSTALS
+  display: x8 Prismarine Crystals
   amount: 8
 level-20:
   items:
     diamonds:
       material: DIAMOND
+      display: x4 Diamond
       amount: 4
     money:
       command: "eco give <player> 10000"
@@ -105,35 +127,45 @@ level-20:
       display: "VIP Kit Access"
 level-21:
   material: SLIME_BALL
+  display: x16 Slime Ball
   amount: 16
 level-22:
   material: GUNPOWDER
+  display: x16 Gunpowder
   amount: 16
 level-23:
   material: STRING
+  display: x32 String
   amount: 32
 level-24:
   material: SPIDER_EYE
+  display: x8 Spider Eye
   amount: 8
 level-25:
   material: SHULKER_SHELL
+  display: x1 Shulker Shell
   amount: 1
 level-26:
   material: PHANTOM_MEMBRANE
+  display: x4 Phantom Membrane
   amount: 4
 level-27:
   material: NAUTILUS_SHELL
+  display: x2 Nautilus Shell
   amount: 2
 level-28:
   material: RABBIT_FOOT
+  display: x4 Rabbit Foot
   amount: 4
 level-29:
   material: TURTLE_SCUTE
+  display: x2 Turtle Scute
   amount: 2
 level-30:
   items:
     enchantedbook:
       material: ENCHANTED_BOOK
+      display: x1 Enchanted Book
       amount: 1
     money:
       command: "eco give <player> 7500"
@@ -143,35 +175,45 @@ level-30:
       display: "100 XP Levels"
 level-31:
   material: IRON_HORSE_ARMOR
+  display: x1 Iron Horse Armor
   amount: 1
 level-32:
   material: IRON_HORSE_ARMOR
+  display: x1 Iron Horse Armor
   amount: 1
 level-33:
   material: SADDLE
+  display: x1 Saddle
   amount: 1
 level-34:
   material: NAME_TAG
+  display: x2 Name Tag
   amount: 2
 level-35:
   material: GOLDEN_CARROT
+  display: x8 Golden Carrot
   amount: 8
 level-36:
   material: GLISTERING_MELON_SLICE
+  display: x8 Glistering Melon Slice
   amount: 8
 level-37:
   material: FERMENTED_SPIDER_EYE
+  display: x4 Fermented Spider Eye
   amount: 4
 level-38:
   material: BLAZE_POWDER
+  display: x8 Blaze Powder
   amount: 8
 level-39:
   material: ENDER_EYE
+  display: x2 Ender Eye
   amount: 2
 level-40:
   items:
     diamond:
       material: DIAMOND_BLOCK
+      display: x1 Diamond Block
       amount: 1
     money:
       command: "eco give <player> 20000"
@@ -181,47 +223,61 @@ level-40:
       display: "Speed II (1 hour)"
 level-41:
   material: EMERALD_BLOCK
+  display: x1 Emerald Block
   amount: 1
 level-42:
   material: ANCIENT_DEBRIS
+  display: x1 Ancient Debris
   amount: 1
 level-43:
   material: NETHERITE_SCRAP
+  display: x1 Netherite Scrap
   amount: 1
 level-44:
   material: CRYING_OBSIDIAN
+  display: x8 Crying Obsidian
   amount: 8
 level-45:
   material: RESPAWN_ANCHOR
+  display: x1 Respawn Anchor
   amount: 1
 level-46:
   material: LODESTONE
+  display: x1 Lodestone
   amount: 1
 level-47:
   material: HONEYCOMB
+  display: x16 Honeycomb
   amount: 16
 level-48:
   material: HONEY_BLOCK
+  display: x4 Honey Block
   amount: 4
 level-49:
   material: SHULKER_SHELL
+  display: x2 Shulker Shell
   amount: 2
 level-50:
   material: TOTEM_OF_UNDYING
+  display: x1 Totem of Undying
   amount: 1
 level-51:
   material: COPPER_BLOCK
+  display: x16 Copper Block
   amount: 16
 level-52:
   material: AMETHYST_SHARD
+  display: x32 Amethyst Shard
   amount: 32
 level-53:
   material: ECHO_SHARD
+  display: x4 Echo Shard
   amount: 4
 level-54:
   items:
     star:
       material: NETHER_STAR
+      display: x1 Nether Star
       amount: 1
     money:
       command: "eco give <player> 30000"

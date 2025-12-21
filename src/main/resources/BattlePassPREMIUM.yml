@@ -3,6 +3,7 @@
 # Single item reward:
 #   level-X:
 #     material: DIAMOND
+#     display: x5 Diamond
 #     amount: 5
 #
 # Command reward:
@@ -15,6 +16,7 @@
 #     items:
 #       reward1:
 #         material: DIAMOND
+#         display: x5 Diamond
 #         amount: 5
 #       reward2:
 #         command: "kit vip <player>"
@@ -26,6 +28,7 @@ level-1:
   items:
     diamonds:
       material: DIAMOND
+      display: x8 Diamond
       amount: 8
     money:
       command: "eco give <player> 5000"
@@ -35,37 +38,46 @@ level-1:
       display: "Premium Kit"
 level-2:
   material: NETHERITE_INGOT
+  display: x1 Netherite Ingot
   amount: 1
 level-3:
   material: GOLDEN_APPLE
+  display: x4 Golden Apple
   amount: 4
 level-4:
   material: ENCHANTED_GOLDEN_APPLE
+  display: x1 Enchanted Golden Apple
   amount: 1
 level-5:
   items:
     beacon:
       material: BEACON
+      display: x1 Beacon
       amount: 1
     money:
       command: "eco give <player> 15000"
       display: "$15,000"
 level-6:
   material: ELYTRA
+  display: x1 Elytra
   amount: 1
 level-7:
   material: NETHER_STAR
+  display: x2 Nether Star
   amount: 2
 level-8:
   material: DRAGON_HEAD
+  display: x1 Dragon Head
   amount: 1
 level-9:
   material: HEART_OF_THE_SEA
+  display: x1 Heart of the Sea
   amount: 1
 level-10:
   items:
     totem:
       material: TOTEM_OF_UNDYING
+      display: x2 Totem of Undying
       amount: 2
     money:
       command: "eco give <player> 25000"
@@ -78,35 +90,45 @@ level-10:
       display: "Server Announcement"
 level-11:
   material: TRIDENT
+  display: x1 Trident
   amount: 1
 level-12:
   material: DIAMOND_HELMET
+  display: x1 Diamond Helmet
   amount: 1
 level-13:
   material: DIAMOND_CHESTPLATE
+  display: x1 Diamond Chestplate
   amount: 1
 level-14:
   material: DIAMOND_LEGGINGS
+  display: x1 Diamond Leggings
   amount: 1
 level-15:
   material: DIAMOND_BOOTS
+  display: x1 Diamond Boots
   amount: 1
 level-16:
   material: NETHERITE_UPGRADE_SMITHING_TEMPLATE
+  display: x1 Netherite Upgrade Smithing Template
   amount: 1
 level-17:
   material: DIAMOND_HORSE_ARMOR
+  display: x1 Diamond Horse Armor
   amount: 1
 level-18:
   material: ENCHANTED_BOOK
+  display: x3 Enchanted Book
   amount: 3
 level-19:
   material: EXPERIENCE_BOTTLE
+  display: x64 Experience Bottle
   amount: 64
 level-20:
   items:
     dragonegg:
       material: DRAGON_EGG
+      display: x1 Dragon Egg
       amount: 1
     money:
       command: "eco give <player> 50000"
@@ -119,65 +141,85 @@ level-20:
       display: "3x Legendary Crates"
 level-21:
   material: NETHERITE_HELMET
+  display: x1 Netherite Helmet
   amount: 1
 level-22:
   material: NETHERITE_CHESTPLATE
+  display: x1 Netherite Chestplate
   amount: 1
 level-23:
   material: NETHERITE_LEGGINGS
+  display: x1 Netherite Leggings
   amount: 1
 level-24:
   material: NETHERITE_BOOTS
+  display: x1 Netherite Boots
   amount: 1
 level-25:
   material: BEACON
+  display: x2 Beacon
   amount: 2
 level-26:
   material: NETHERITE_BOOTS
+  display: x1 Netherite Boots
   amount: 1
 level-27:
   material: ANVIL
+  display: x3 Anvil
   amount: 3
 level-28:
   material: BREWING_STAND
+  display: x3 Brewing Stand
   amount: 3
 level-29:
   material: ENDER_CHEST
+  display: x2 Ender Chest
   amount: 2
 level-30:
   material: SHULKER_BOX
+  display: x1 Shulker Box
   amount: 1
 level-31:
   material: CONDUIT
+  display: x1 Conduit
   amount: 1
 level-32:
   material: MUSIC_DISC_PIGSTEP
+  display: x1 Music Disc Pigstep
   amount: 1
 level-33:
   material: MUSIC_DISC_OTHERSIDE
+  display: x1 Music Disc Otherside
   amount: 1
 level-34:
   material: CREEPER_HEAD
+  display: x1 Creeper Head
   amount: 1
 level-35:
   material: ZOMBIE_HEAD
+  display: x1 Zombie Head
   amount: 1
 level-36:
   material: SKELETON_SKULL
+  display: x1 Skeleton Skull
   amount: 1
 level-37:
   material: WITHER_SKELETON_SKULL
+  display: x3 Wither Skeleton Skull
   amount: 3
 level-38:
   material: NETHERITE_INGOT
+  display: x3 Netherite Ingot
   amount: 3
 level-39:
   material: NETHERITE_BLOCK
+  display: x1 Netherite Block
   amount: 1
 level-40:
   items:
     elytra:
       material: ELYTRA
+      display: x2 Elytra
       amount: 2
     money:
       command: "eco give <player> 75000"
@@ -187,47 +229,61 @@ level-40:
       display: "Regeneration II (2 hours)"
 level-41:
   material: DRAGON_BREATH
+  display: x16 Dragon Breath
   amount: 16
 level-42:
   material: END_CRYSTAL
+  display: x4 End Crystal
   amount: 4
 level-43:
   material: CHORUS_FRUIT
+  display: x32 Chorus Fruit
   amount: 32
 level-44:
   material: TOTEM_OF_UNDYING
+  display: x3 Totem of Undying
   amount: 3
 level-45:
   material: NETHER_STAR
+  display: x4 Nether Star
   amount: 4
 level-46:
   material: ENCHANTED_GOLDEN_APPLE
+  display: x3 Enchanted Golden Apple
   amount: 3
 level-47:
   material: NETHERITE_UPGRADE_SMITHING_TEMPLATE
+  display: x3 Netherite Upgrade Smithing Template
   amount: 3
 level-48:
   material: NETHERITE_SWORD
+  display: x1 Netherite Sword
   amount: 1
 level-49:
   material: AMETHYST_BLOCK
+  display: x8 Amethyst Block
   amount: 8
 level-50:
   material: DRAGON_EGG
+  display: x2 Dragon Egg
   amount: 2
 level-51:
   material: ECHO_SHARD
+  display: x8 Echo Shard
   amount: 8
 level-52:
   material: SPYGLASS
+  display: x1 Spyglass
   amount: 1
 level-53:
   material: RECOVERY_COMPASS
+  display: x1 Recovery Compass
   amount: 1
 level-54:
   items:
     dragonegg:
       material: DRAGON_EGG
+      display: x3 Dragon egg
       amount: 3
     money:
       command: "eco give <player> 100000"

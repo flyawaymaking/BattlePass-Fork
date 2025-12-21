@@ -35,11 +35,15 @@ public class MissionProgressTracker {
         MessageManager messageManager = plugin.getMessageManager();
 
         for (Mission mission : dailyMissions) {
+            if (mission.isPremium && !data.hasPremium) {
+                continue;
+            }
+
             if (!mission.type.equals(type)) continue;
 
             if (!mission.isValidTarget(target)) continue;
 
-            String missionKey = generateMissionKey(mission);
+            String missionKey = mission.getKey();
 
             if (completedKeys.contains(missionKey)) {
                 continue;
@@ -76,11 +80,6 @@ public class MissionProgressTracker {
         if (changed) {
             plugin.getPlayerDataManager().markForSave(player.getUniqueId());
         }
-    }
-
-    private String generateMissionKey(Mission mission) {
-        // Updated to include mission name to avoid collisions
-        return mission.type + "_" + mission.target + "_" + mission.required + "_" + mission.name.hashCode();
     }
 
     public void resetProgress() {
@@ -251,8 +250,11 @@ public class MissionProgressTracker {
     public int getCompletedMissionsCount(PlayerData data, List<Mission> missions) {
         int completed = 0;
         for (Mission mission : missions) {
-            String key = generateMissionKey(mission);
-            int progress = data.missionProgress.getOrDefault(key, 0);
+            if (mission.isPremium && !data.hasPremium) {
+                continue;
+            }
+
+            int progress = data.missionProgress.getOrDefault(mission.getKey(), 0);
             if (progress >= mission.required) {
                 completed++;
             }

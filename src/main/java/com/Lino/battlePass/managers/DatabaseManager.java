@@ -173,6 +173,7 @@ public class DatabaseManager {
                         "additional_targets TEXT," +
                         "required INTEGER," +
                         "xp_reward INTEGER," +
+                        "is_premium INTEGER DEFAULT 0," +
                         "date TEXT)"
                 );
 
@@ -182,9 +183,19 @@ public class DatabaseManager {
                         stmt.executeUpdate("ALTER TABLE " + prefix + "daily_missions ADD COLUMN additional_targets TEXT");
                     } catch (SQLException ignored) {
                     }
+
+                    try {
+                        stmt.executeUpdate("ALTER TABLE " + prefix + "daily_missions ADD COLUMN is_premium INTEGER DEFAULT 0");
+                    } catch (SQLException ignored) {
+                    }
                 } else {
                     try {
                         stmt.executeUpdate("ALTER TABLE " + prefix + "daily_missions ADD COLUMN additional_targets TEXT DEFAULT ''");
+                    } catch (SQLException ignored) {
+                    }
+
+                    try {
+                        stmt.executeUpdate("ALTER TABLE " + prefix + "daily_missions ADD COLUMN is_premium INT DEFAULT 0");
                     } catch (SQLException ignored) {
                     }
                 }
@@ -554,8 +565,8 @@ public class DatabaseManager {
             if (missions.isEmpty()) return;
 
             String insertSql = isMySQL
-                    ? "INSERT INTO " + prefix + "daily_missions (name, type, target, additional_targets, required, xp_reward, date) VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE name=VALUES(name), type=VALUES(type), target=VALUES(target), additional_targets=VALUES(additional_targets), required=VALUES(required), xp_reward=VALUES(xp_reward)"
-                    : "INSERT OR REPLACE INTO " + prefix + "daily_missions (name, type, target, additional_targets, required, xp_reward, date) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    ? "INSERT INTO " + prefix + "daily_missions (name, type, target, additional_targets, required, xp_reward, is_premium, date) VALUES (?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE name=VALUES(name), type=VALUES(type), target=VALUES(target), additional_targets=VALUES(additional_targets), required=VALUES(required), xp_reward=VALUES(xp_reward), is_premium=VALUES(is_premium)"
+                    : "INSERT OR REPLACE INTO " + prefix + "daily_missions (name, type, target, additional_targets, required, xp_reward, is_premium, date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             Connection conn = null;
             boolean shouldClose = isMySQL;
 
@@ -573,7 +584,8 @@ public class DatabaseManager {
                         ps.setString(4, String.join(",", mission.additionalTargets));
                         ps.setInt(5, mission.required);
                         ps.setInt(6, mission.xpReward);
-                        ps.setString(7, missionDate);
+                        ps.setInt(7, mission.isPremium ? 1 : 0);
+                        ps.setString(8, missionDate);
                         ps.addBatch();
                     }
                     ps.executeBatch();
@@ -609,13 +621,16 @@ public class DatabaseManager {
                                 additionalTargets = Arrays.asList(additionalTargetsStr.split(","));
                             }
 
+                            boolean isPremium = rs.getInt("is_premium") == 1;
+
                             loadedMissions.add(new Mission(
                                     rs.getString("name"),
                                     rs.getString("type"),
                                     rs.getString("target"),
                                     additionalTargets,
                                     rs.getInt("required"),
-                                    rs.getInt("xp_reward")
+                                    rs.getInt("xp_reward"),
+                                    isPremium
                             ));
                         }
                     }

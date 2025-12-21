@@ -21,7 +21,7 @@ public class MissionGenerator {
             return new ArrayList<>();
         }
 
-        List<Mission> newMissions = new ArrayList<>();
+        List<Mission> allMissions = new ArrayList<>();
         List<WeightedMissionTemplate> weightedTemplates = new ArrayList<>();
 
         for (String key : pools.getKeys(false)) {
@@ -44,20 +44,30 @@ public class MissionGenerator {
             weightedTemplates.add(new WeightedMissionTemplate(template, weight, key));
         }
 
-        int missionsToGenerate = configManager.getDailyMissionsCount();
+        int baseMissionCount = configManager.getDailyMissionsCount();
+        int premiumAdditionalMissions = configManager.getPremiumAdditionalMissionsCount();
 
-        for (int i = 0; i < missionsToGenerate && !weightedTemplates.isEmpty(); i++) {
-            WeightedMissionTemplate selected = selectWeightedRandom(weightedTemplates);
-
+        List<WeightedMissionTemplate> availableForBase = new ArrayList<>(weightedTemplates);
+        for (int i = 0; i < baseMissionCount && !availableForBase.isEmpty(); i++) {
+            WeightedMissionTemplate selected = selectWeightedRandom(availableForBase);
             if (selected != null) {
-                Mission mission = createMissionFromTemplate(selected.template);
-                newMissions.add(mission);
-
-                weightedTemplates.removeIf(w -> w.key.equals(selected.key));
+                Mission mission = createMissionFromTemplate(selected.template, false);
+                allMissions.add(mission);
+                availableForBase.removeIf(w -> w.key.equals(selected.key));
             }
         }
 
-        return newMissions;
+        List<WeightedMissionTemplate> availableForPremium = new ArrayList<>(weightedTemplates);
+        for (int i = 0; i < premiumAdditionalMissions && !availableForPremium.isEmpty(); i++) {
+            WeightedMissionTemplate selected = selectWeightedRandom(availableForPremium);
+            if (selected != null) {
+                Mission mission = createMissionFromTemplate(selected.template, true);
+                allMissions.add(mission);
+                availableForPremium.removeIf(w -> w.key.equals(selected.key));
+            }
+        }
+
+        return allMissions;
     }
 
     private WeightedMissionTemplate selectWeightedRandom(List<WeightedMissionTemplate> weightedTemplates) {
@@ -82,7 +92,7 @@ public class MissionGenerator {
         return weightedTemplates.getLast();
     }
 
-    private Mission createMissionFromTemplate(MissionTemplate template) {
+    private Mission createMissionFromTemplate(MissionTemplate template, boolean isPremium) {
         int required = ThreadLocalRandom.current().nextInt(
                 template.minRequired, template.maxRequired + 1);
         int xpReward = ThreadLocalRandom.current().nextInt(
@@ -92,7 +102,8 @@ public class MissionGenerator {
                 .replace("<amount>", String.valueOf(required))
                 .replace("<target>", formatTarget(template.target));
 
-        return new Mission(name, template.type, template.target, template.additionalTargets, required, xpReward);
+        return new Mission(name, template.type, template.target, template.additionalTargets,
+                required, xpReward, isPremium);
     }
 
     private String formatTarget(String target) {

@@ -20,6 +20,7 @@ public class ConfigManager {
 
     private int xpPerLevel = 200;
     private int dailyMissionsCount = 7;
+    private int premiumAdditionalMissionsCount = 2;
     private String seasonResetType = "DURATION";
     private int seasonDuration = 30;
     private int dailyRewardXP = 200;
@@ -107,6 +108,7 @@ public class ConfigManager {
         File missionsFile = new File(plugin.getDataFolder(), "missions.yml");
         missionsConfig = YamlConfiguration.loadConfiguration(missionsFile);
         dailyMissionsCount = missionsConfig.getInt("daily-missions-count", 7);
+        premiumAdditionalMissionsCount = getMissionsConfig().getInt("premium-additional-missions", 2);
 
         File messagesFile = new File(plugin.getDataFolder(), "messages.yml");
         messagesConfig = YamlConfiguration.loadConfiguration(messagesFile);
@@ -163,6 +165,10 @@ public class ConfigManager {
 
     public int getDailyMissionsCount() {
         return dailyMissionsCount;
+    }
+
+    public int getPremiumAdditionalMissionsCount() {
+        return premiumAdditionalMissionsCount;
     }
 
     public String getSeasonResetType() {

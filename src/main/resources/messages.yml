@@ -354,6 +354,19 @@ items:
       - "&7Earn more by staying"
       - "&7in the top 10!"
 
+  premium-mission:
+    additional-lore:
+      - ""
+      - "<gradient:#FFD93D:#FF6B6B>⭐ PREMIUM ONLY</gradient>"
+    not-available:
+      name: "<gradient:#FF5555:#FF0000>%mission%</gradient>"
+      lore:
+        - ""
+        - "&8▸ &7This mission is only available to"
+        - "&8▸ &7players with <gradient:#FFD93D:#FF6B6B>Premium Battle Pass</gradient>"
+        - ""
+        - "&8▸ &7Reward: <gradient:#FFD93D:#FF6B6B>%reward_xp% XP</gradient>"
+
 time:
   days-hours: "%days%d %hours%h"
   hours-minutes: "%hours%h %minutes%m"

@@ -45,6 +45,8 @@ public class MissionDetailsGui {
             gui.setItem(12, createNonEditItem(Material.BARRIER, "&7Target", "&7Not needed for " + type));
         }
 
+        gui.setItem(13, createAdditionalTargetsItem(section));
+
         gui.setItem(14, createEditItem(Material.IRON_INGOT, "&eMin Required", String.valueOf(section.getInt("min-required"))));
         gui.setItem(15, createEditItem(Material.GOLD_INGOT, "&eMax Required", String.valueOf(section.getInt("max-required"))));
 
@@ -69,6 +71,32 @@ public class MissionDetailsGui {
         List<String> lore = new ArrayList<>();
         lore.add("");
         lore.add(GradientColorParser.parse("&7Current: &f" + value));
+        lore.add("");
+        lore.add(GradientColorParser.parse("&eClick to Change"));
+        meta.setLore(lore);
+        item.setItemMeta(meta);
+        return item;
+    }
+
+    private ItemStack createAdditionalTargetsItem(ConfigurationSection section) {
+        ItemStack item = new ItemStack(Material.TARGET);
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(GradientColorParser.parse("&eAdditional Targets"));
+
+        List<String> additionalTargets = section.getStringList("additional-targets");
+        String currentValue;
+        if (additionalTargets.isEmpty()) {
+            currentValue = "None";
+        } else {
+            currentValue = String.join(", ", additionalTargets);
+        }
+
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(GradientColorParser.parse("&7Current: &f" + currentValue));
+        lore.add("");
+        lore.add(GradientColorParser.parse("&7Additional valid targets"));
+        lore.add(GradientColorParser.parse("&7Separate with commas"));
         lore.add("");
         lore.add(GradientColorParser.parse("&eClick to Change"));
         meta.setLore(lore);

@@ -64,13 +64,18 @@ public class MissionEditorGui {
         List<String> lore = new ArrayList<>();
         lore.add(GradientColorParser.parse("&7Type: &f" + section.getString("type")));
         lore.add(GradientColorParser.parse("&7Target: &f" + section.getString("target")));
+
+        List<String> additionalTargets = section.getStringList("additional-targets");
+        if (!additionalTargets.isEmpty()) {
+            lore.add(GradientColorParser.parse("&7Additional: &f" + String.join(", ", additionalTargets)));
+        }
+
         lore.add(GradientColorParser.parse("&7Display: &f" + section.getString("display-name")));
         lore.add("");
         lore.add(GradientColorParser.parse("&eLeft-Click to Edit"));
         lore.add(GradientColorParser.parse("&cRight-Click to Delete"));
 
         meta.setLore(lore);
-        // Store key in persistent data
         meta.getPersistentDataContainer().set(plugin.getCustomItemManager().getPremiumItemKey(), PersistentDataType.STRING, key);
 
         item.setItemMeta(meta);

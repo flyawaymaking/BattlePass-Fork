@@ -132,6 +132,7 @@ public class MissionEditorListener implements Listener {
             case 10: type = MissionEditorManager.EditType.DISPLAY_NAME; break;
             case 11: type = MissionEditorManager.EditType.TYPE; break;
             case 12: if (isTargetRequired) type = MissionEditorManager.EditType.TARGET; break;
+            case 13: type = MissionEditorManager.EditType.ADDITIONAL_TARGETS; break; // НОВОЕ
             case 14: type = MissionEditorManager.EditType.MIN_REQ; break;
             case 15: type = MissionEditorManager.EditType.MAX_REQ; break;
             case 22: type = MissionEditorManager.EditType.WEIGHT; break;

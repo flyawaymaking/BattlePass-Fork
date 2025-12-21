@@ -12,8 +12,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -55,6 +54,7 @@ public class MissionEditorManager {
         config.set(path + ".max-xp", 200);
         config.set(path + ".weight", 10);
         config.set(path + ".target", getDefaultTarget(type));
+        config.set(path + ".additional-targets", new ArrayList<>());
 
         saveConfig(file, config);
 
@@ -104,8 +104,15 @@ public class MissionEditorManager {
 
         player.closeInventory();
         player.sendMessage(GradientColorParser.parse(plugin.getMessageManager().getPrefix() +
-                "<gradient:#FFD700:#FF6B6B>Editing " + type.name() + "</gradient>"));
-        player.sendMessage(GradientColorParser.parse("&7Enter the new value in chat."));
+                "<gradient:#FFD700:#FF6B6B>Editing " + type.getDisplayName() + "</gradient>"));
+
+        if (type == EditType.ADDITIONAL_TARGETS) {
+            player.sendMessage(GradientColorParser.parse("&7Enter targets separated by commas (e.g., ZOMBIE,SKELETON)"));
+            player.sendMessage(GradientColorParser.parse("&7Leave empty to clear all targets."));
+        } else {
+            player.sendMessage(GradientColorParser.parse("&7Enter the new value in chat."));
+        }
+
         player.sendMessage(GradientColorParser.parse("&7Type &c'cancel' &7to cancel."));
     }
 
@@ -129,6 +136,9 @@ public class MissionEditorManager {
                     break;
                 case TARGET:
                     config.set(path + "target", message.toUpperCase());
+                    break;
+                case ADDITIONAL_TARGETS:
+                    handleAdditionalTargetsInput(config, path, message);
                     break;
                 case MIN_REQ:
                     config.set(path + "min-required", Integer.parseInt(message));
@@ -167,7 +177,24 @@ public class MissionEditorManager {
         }
     }
 
-    // --- Helpers ---
+    private void handleAdditionalTargetsInput(FileConfiguration config, String path, String message) {
+        if (message.trim().isEmpty()) {
+            config.set(path + "additional-targets", new ArrayList<>());
+            return;
+        }
+
+        String[] targets = message.split(",");
+        List<String> cleanedTargets = new ArrayList<>();
+
+        for (String target : targets) {
+            String cleaned = target.trim().toUpperCase();
+            if (!cleaned.isEmpty()) {
+                cleanedTargets.add(cleaned);
+            }
+        }
+
+        config.set(path + "additional-targets", cleanedTargets);
+    }
 
     private void saveConfig(File file, FileConfiguration config) {
         try {
@@ -216,7 +243,25 @@ public class MissionEditorManager {
     }
 
     public enum EditType {
-        DISPLAY_NAME, TYPE, TARGET, MIN_REQ, MAX_REQ, MIN_XP, MAX_XP, WEIGHT
+        DISPLAY_NAME("Display Name"),
+        TYPE("Type"),
+        TARGET("Target"),
+        ADDITIONAL_TARGETS("Additional Targets"), // НОВОЕ
+        MIN_REQ("Min Required"),
+        MAX_REQ("Max Required"),
+        MIN_XP("Min XP"),
+        MAX_XP("Max XP"),
+        WEIGHT("Weight");
+
+        private final String displayName;
+
+        EditType(String displayName) {
+            this.displayName = displayName;
+        }
+
+        public String getDisplayName() {
+            return displayName;
+        }
     }
 
     public static class EditorState {

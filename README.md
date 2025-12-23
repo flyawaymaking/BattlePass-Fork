@@ -1,4 +1,4 @@
-# ⚔️ BattlePass - Ultimate Progression Plugin for Minecraft (1.21.10)
+# ⚔️ BattlePass - Ultimate Progression Plugin for Minecraft (1.21+)
 
 > **The most advanced, feature-rich Battle Pass system for Paper servers.**
 > Engage your players with Daily Missions, Tiered Rewards, and a custom Currency Shop.

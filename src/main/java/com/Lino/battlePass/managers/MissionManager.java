@@ -134,6 +134,13 @@ public class MissionManager {
     }
 
     private void resetSeason() {
+        SeasonRotationManager rotation = plugin.getSeasonRotationManager();
+        if (rotation != null && rotation.isRotationEnabled()) {
+            rotation.rotateToNextSeason();
+            plugin.getConfigManager().reload();
+            plugin.getRewardManager().loadRewards();
+        }
+
         resetHandler.resetSeason();
         currentMissionDate = LocalDateTime.now().toLocalDate().toString();
         generateDailyMissions();
@@ -143,6 +150,13 @@ public class MissionManager {
     }
 
     public void forceResetSeason() {
+        SeasonRotationManager rotation = plugin.getSeasonRotationManager();
+        if (rotation != null && rotation.isRotationEnabled()) {
+            rotation.rotateToNextSeason();
+            plugin.getConfigManager().reload();
+            plugin.getRewardManager().loadRewards();
+        }
+
         resetHandler.forceResetSeason();
         currentMissionDate = LocalDateTime.now().toLocalDate().toString();
         generateDailyMissions();

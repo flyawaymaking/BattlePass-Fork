@@ -1,6 +1,9 @@
 package com.Lino.battlePass.commands;
 
 import com.Lino.battlePass.BattlePass;
+import com.Lino.battlePass.gui.RewardsEditorGui;
+import com.Lino.battlePass.managers.SeasonRotationManager;
+import com.Lino.battlePass.managers.XPEventManager;
 import com.Lino.battlePass.models.PlayerData;
 import com.Lino.battlePass.tasks.CoinsDistributionTask;
 import org.bukkit.Bukkit;
@@ -58,6 +61,15 @@ public class BattlePassCommand implements CommandExecutor {
                     plugin.getGuiManager().openBattlePassGUI((Player) sender, 1);
                 }
                 return true;
+
+            case "event":
+                return handleEventCommand(sender, args);
+
+            case "stopevent":
+                return handleStopEventCommand(sender);
+
+            case "edit":
+                return handleEditCommand(sender, args);
 
             case "resetplayer":
                 if (!sender.hasPermission("battlepass.admin")) {
@@ -130,6 +142,64 @@ public class BattlePassCommand implements CommandExecutor {
         }
     }
 
+    private boolean handleEditCommand(CommandSender sender, String[] args) {
+        if (!sender.hasPermission("battlepass.admin")) {
+            sender.sendMessage(plugin.getMessageManager().getPrefix() +
+                    plugin.getMessageManager().getMessage("messages.no-permission"));
+            return true;
+        }
+
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(plugin.getMessageManager().getPrefix() +
+                    plugin.getMessageManager().getMessage("messages.player-only"));
+            return true;
+        }
+
+        Player player = (Player) sender;
+
+        if (args.length < 2 || !args[1].equalsIgnoreCase("rewards")) {
+            sender.sendMessage(plugin.getMessageManager().getPrefix() +
+                    plugin.getMessageManager().getMessage("messages.usage.edit-rewards-season"));
+            return true;
+        }
+
+        if (args.length >= 4 && args[2].equalsIgnoreCase("season")) {
+            SeasonRotationManager rotation = plugin.getSeasonRotationManager();
+            if (!rotation.isRotationEnabled()) {
+                sender.sendMessage(plugin.getMessageManager().getPrefix() +
+                        plugin.getMessageManager().getMessage("messages.season.rotation-disabled"));
+                return true;
+            }
+
+            try {
+                int seasonNum = Integer.parseInt(args[3]);
+                if (!rotation.isValidSeason(seasonNum)) {
+                    sender.sendMessage(plugin.getMessageManager().getPrefix() +
+                            plugin.getMessageManager().getMessage("messages.season.invalid-season",
+                                    "%max%", String.valueOf(rotation.getTotalSeasons())));
+                    return true;
+                }
+
+                plugin.getRewardEditorManager().setSeasonEditingContext(player.getUniqueId(), seasonNum);
+
+                sender.sendMessage(plugin.getMessageManager().getPrefix() +
+                        plugin.getMessageManager().getMessage("messages.season.editing-season",
+                                "%season%", String.valueOf(seasonNum)));
+
+                new RewardsEditorGui(plugin, player).open();
+
+            } catch (NumberFormatException e) {
+                sender.sendMessage(plugin.getMessageManager().getPrefix() +
+                        plugin.getMessageManager().getMessage("messages.invalid-amount"));
+            }
+        } else {
+            plugin.getRewardEditorManager().clearSeasonEditingContext(player.getUniqueId());
+            new RewardsEditorGui(plugin, player).open();
+        }
+
+        return true;
+    }
+
     private void sendHelpMessage(CommandSender sender) {
         sender.sendMessage(plugin.getMessageManager().getMessage("messages.help.header"));
         sender.sendMessage(plugin.getMessageManager().getMessage("messages.help.battlepass"));
@@ -149,6 +219,9 @@ public class BattlePassCommand implements CommandExecutor {
             sender.sendMessage(plugin.getMessageManager().getMessage("messages.help.giveitem"));
             sender.sendMessage(plugin.getMessageManager().getMessage("messages.help.exclude-top"));
             sender.sendMessage(plugin.getMessageManager().getMessage("messages.help.include-top"));
+            sender.sendMessage(plugin.getMessageManager().getMessage("messages.help.edit-rewards-season"));
+            sender.sendMessage(plugin.getMessageManager().getMessage("messages.help.event"));
+            sender.sendMessage(plugin.getMessageManager().getMessage("messages.help.stopevent"));
         }
     }
 
@@ -476,6 +549,10 @@ public class BattlePassCommand implements CommandExecutor {
                     item = plugin.getCustomItemManager().createLevelBoostItem(amount);
                     itemName = "Experience Boost Elixir";
                     break;
+                case "xpevent":
+                    item = plugin.getCustomItemManager().createXPEventItem(amount);
+                    itemName = "XP Event Beacon";
+                    break;
                 default:
                     sender.sendMessage(plugin.getMessageManager().getPrefix() +
                             plugin.getMessageManager().getMessage("messages.invalid-item-type"));
@@ -514,6 +591,71 @@ public class BattlePassCommand implements CommandExecutor {
                     plugin.getMessageManager().getMessage("messages.invalid-amount"));
             return true;
         }
+    }
+
+    private boolean handleEventCommand(CommandSender sender, String[] args) {
+        if (!sender.hasPermission("battlepass.admin")) {
+            sender.sendMessage(plugin.getMessageManager().getPrefix() +
+                    plugin.getMessageManager().getMessage("messages.no-permission"));
+            return true;
+        }
+
+        if (args.length < 3) {
+            sender.sendMessage(plugin.getMessageManager().getPrefix() +
+                    plugin.getMessageManager().getMessage("messages.usage.event"));
+            return true;
+        }
+
+        int multiplier = XPEventManager.parseMultiplier(args[1]);
+        if (multiplier < 0) {
+            sender.sendMessage(plugin.getMessageManager().getPrefix() +
+                    plugin.getMessageManager().getMessage("messages.event.invalid-multiplier"));
+            return true;
+        }
+
+        long duration = XPEventManager.parseDuration(args[2]);
+        if (duration <= 0) {
+            sender.sendMessage(plugin.getMessageManager().getPrefix() +
+                    plugin.getMessageManager().getMessage("messages.event.invalid-duration"));
+            return true;
+        }
+
+        plugin.getXpEventManager().startEvent(multiplier, duration);
+
+        String durationFormatted = plugin.getXpEventManager().getTimeRemaining();
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.sendMessage(plugin.getMessageManager().getPrefix() +
+                    plugin.getMessageManager().getMessage("messages.event.started",
+                            "%multiplier%", String.valueOf(multiplier),
+                            "%duration%", durationFormatted));
+            player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1.0f, 1.2f);
+        }
+
+        return true;
+    }
+
+    private boolean handleStopEventCommand(CommandSender sender) {
+        if (!sender.hasPermission("battlepass.admin")) {
+            sender.sendMessage(plugin.getMessageManager().getPrefix() +
+                    plugin.getMessageManager().getMessage("messages.no-permission"));
+            return true;
+        }
+
+        if (!plugin.getXpEventManager().isEventActive()) {
+            sender.sendMessage(plugin.getMessageManager().getPrefix() +
+                    plugin.getMessageManager().getMessage("messages.event.not-active"));
+            return true;
+        }
+
+        plugin.getXpEventManager().stopEvent();
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.sendMessage(plugin.getMessageManager().getPrefix() +
+                    plugin.getMessageManager().getMessage("messages.event.stopped"));
+        }
+
+        return true;
     }
 
     private void checkLevelUp(Player player, PlayerData data, int xpPerLevel) {

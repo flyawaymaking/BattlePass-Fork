@@ -162,13 +162,13 @@ public class XPEventManager {
         for (char c : input.toCharArray()) {
             if (Character.isDigit(c)) {
                 number.append(c);
-            } else if (c == 'h' && number.length() > 0) {
+            } else if (c == 'h' && !number.isEmpty()) {
                 total += Long.parseLong(number.toString()) * 3600000;
                 number.setLength(0);
-            } else if (c == 'm' && number.length() > 0) {
+            } else if (c == 'm' && !number.isEmpty()) {
                 total += Long.parseLong(number.toString()) * 60000;
                 number.setLength(0);
-            } else if (c == 's' && number.length() > 0) {
+            } else if (c == 's' && !number.isEmpty()) {
                 total += Long.parseLong(number.toString()) * 1000;
                 number.setLength(0);
             }

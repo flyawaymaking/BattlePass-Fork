@@ -3,9 +3,7 @@ package com.Lino.battlePass.managers;
 import com.Lino.battlePass.BattlePass;
 import com.Lino.battlePass.utils.GradientColorParser;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,8 +18,7 @@ public class MessageManager {
     }
 
     public void reload() {
-        File messagesFile = new File(plugin.getDataFolder(), "messages.yml");
-        messagesConfig = YamlConfiguration.loadConfiguration(messagesFile);
+        messagesConfig = plugin.getConfigManager().getMessagesConfig();
     }
 
     public String getMessage(String path, Object... replacements) {

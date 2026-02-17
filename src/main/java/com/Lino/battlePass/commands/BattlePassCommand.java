@@ -149,13 +149,11 @@ public class BattlePassCommand implements CommandExecutor {
             return true;
         }
 
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             sender.sendMessage(plugin.getMessageManager().getPrefix() +
                     plugin.getMessageManager().getMessage("messages.player-only"));
             return true;
         }
-
-        Player player = (Player) sender;
 
         if (args.length < 2 || !args[1].equalsIgnoreCase("rewards")) {
             sender.sendMessage(plugin.getMessageManager().getPrefix() +

@@ -1,4 +1,5 @@
 # Battle Pass Configuration
+version: 1  # DON'T CHANGE THIS VALUE
 
 # Season configuration
 season:
@@ -50,7 +51,7 @@ missions:
   reset-hours: 24
 
 # Battle Coins distribution configuration
-# Coins distributed to top 10 players at specified intervals
+# Coins distributed to top players at specified intervals
 # distribution-hours: How often coins are distributed (in hours)
 # Format: position = coins amount
 battle-coins:

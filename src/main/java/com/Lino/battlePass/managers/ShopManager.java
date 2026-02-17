@@ -9,11 +9,9 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.io.File;
 import java.util.*;
 
 public class ShopManager {
@@ -23,16 +21,11 @@ public class ShopManager {
 
     public ShopManager(BattlePass plugin) {
         this.plugin = plugin;
-        loadShop();
+        reload();
     }
 
-    public void loadShop() {
-        File shopFile = new File(plugin.getDataFolder(), "shop.yml");
-        if (!shopFile.exists()) {
-            plugin.saveResource("shop.yml", false);
-        }
-
-        FileConfiguration shopConfig = YamlConfiguration.loadConfiguration(shopFile);
+    public void reload() {
+        FileConfiguration shopConfig = plugin.getConfigManager().getShopConfig();
         shopItems.clear();
 
         ConfigurationSection items = shopConfig.getConfigurationSection("shop-items");
@@ -102,9 +95,5 @@ public class ShopManager {
 
     public Map<Integer, ShopItem> getShopItems() {
         return shopItems;
-    }
-
-    public void reload() {
-        loadShop();
     }
 }

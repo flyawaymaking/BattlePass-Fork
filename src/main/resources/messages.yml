@@ -1,3 +1,5 @@
+version: 1  # DON'T CHANGE THIS VALUE
+
 prefix: "<gradient:#FF6B6B:#4ECDC4>BATTLE PASS</gradient> &8» "
 
 messages:

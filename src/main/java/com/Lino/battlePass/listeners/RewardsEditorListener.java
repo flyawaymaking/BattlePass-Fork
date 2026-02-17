@@ -47,8 +47,7 @@ public class RewardsEditorListener implements Listener {
 
         if (title.contains("Free Rewards") || title.contains("Premium Rewards")) {
             boolean isPremium = title.contains("Premium Rewards");
-            String cleanTitle = title;
-            if (cleanTitle.contains("Page")) {
+            if (title.contains("Page")) {
                 event.setCancelled(true);
                 int slot = event.getRawSlot();
                 if (slot >= 0 && slot < event.getInventory().getSize()) {
@@ -228,7 +227,7 @@ public class RewardsEditorListener implements Listener {
             ItemStack cursor = event.getCursor();
             ItemStack clicked = event.getCurrentItem();
 
-            if (cursor != null && !cursor.getType().isAir()) {
+            if (!cursor.getType().isAir()) {
                 editor.addReward(new EditableReward(cursor.clone()));
                 refreshEditor(player, editor);
             } else if (clicked != null && !clicked.getType().isAir()) {

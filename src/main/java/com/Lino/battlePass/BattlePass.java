@@ -35,10 +35,6 @@ public class BattlePass extends JavaPlugin {
     private SeasonRotationManager seasonRotationManager;
     private XPEventManager xpEventManager;
 
-    private boolean updateAvailable = false;
-    private String latestVersion = "";
-    private static final String SPIGOT_RESOURCE_ID = "125992";
-
     @Override
     public void onEnable() {
         saveDefaultConfig();
@@ -53,8 +49,6 @@ public class BattlePass extends JavaPlugin {
 
         seasonRotationManager = new SeasonRotationManager(this);
         seasonRotationManager.createDefaultSeasonFolders();
-
-        configManager.reload();
 
         xpEventManager = new XPEventManager(this);
 
@@ -157,10 +151,8 @@ public class BattlePass extends JavaPlugin {
     }
 
     public void reload() {
-        reloadConfig();
-        seasonRotationManager.reload();
         configManager.reload();
-        messageManager.reload();
+        seasonRotationManager.reload();
         rewardManager.loadRewards();
         shopManager.reload();
         guiManager.clearCache();
@@ -201,14 +193,6 @@ public class BattlePass extends JavaPlugin {
                 }, 1L);
             }
         }
-    }
-
-    public boolean isUpdateAvailable() {
-        return updateAvailable;
-    }
-
-    public String getLatestVersion() {
-        return latestVersion;
     }
 
     public DatabaseManager getDatabaseManager() {

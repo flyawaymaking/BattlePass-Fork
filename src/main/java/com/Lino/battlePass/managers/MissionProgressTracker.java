@@ -136,7 +136,7 @@ public class MissionProgressTracker {
 
     private void sendActionBar(Player player, String message) {
         try {
-            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(message));
+            player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(message));
         } catch (Exception e) {
             player.sendMessage("§7[§6Progress§7] " + message);
         }
@@ -169,7 +169,8 @@ public class MissionProgressTracker {
                 "%current%", String.valueOf(current),
                 "%required%", String.valueOf(required));
 
-        sendActionBar(player, progressMessage);
+        int taskId = new BukkitRunnable() {
+            private int count = 0;
 
             @Override
             public void run() {

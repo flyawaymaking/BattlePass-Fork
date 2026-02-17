@@ -2,12 +2,16 @@ package com.Lino.battlePass.managers;
 
 import com.Lino.battlePass.BattlePass;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ConfigManager {
 
@@ -15,6 +19,7 @@ public class ConfigManager {
     private FileConfiguration config;
     private FileConfiguration missionsConfig;
     private FileConfiguration messagesConfig;
+    private FileConfiguration shopConfig;
     private FileConfiguration battlePassFreeConfig;
     private FileConfiguration battlePassPremiumConfig;
 
@@ -55,8 +60,62 @@ public class ConfigManager {
         reload();
     }
 
+    public FileConfiguration migrateConfig(String fileName) {
+        boolean isMainConfig = fileName.equalsIgnoreCase("config.yml");
+
+        File file = new File(plugin.getDataFolder(), fileName);
+
+        if (!file.exists()) {
+            plugin.saveResource(fileName, false);
+        }
+
+        FileConfiguration config;
+        if (isMainConfig) {
+            plugin.reloadConfig();
+            config = plugin.getConfig();
+        } else {
+            config = YamlConfiguration.loadConfiguration(file);
+        }
+
+        YamlConfiguration defaultConfig;
+        try (InputStreamReader reader = new InputStreamReader(
+                Objects.requireNonNull(plugin.getResource(fileName)),
+                StandardCharsets.UTF_8
+        )) {
+            defaultConfig = YamlConfiguration.loadConfiguration(reader);
+        } catch (Exception e) {
+            plugin.getLogger().severe("Failed to load default " + fileName);
+            return config;
+        }
+
+        int currentVersion = defaultConfig.getInt("version", 1);
+        int fileVersion = config.getInt("version", 0);
+
+        if (fileVersion < currentVersion) {
+            plugin.getLogger().info("Updating " + fileName +
+                    " from version " + fileVersion +
+                    " to " + currentVersion);
+
+            config.setDefaults(defaultConfig);
+            config.options().copyDefaults(true);
+            config.set("version", currentVersion);
+
+            try {
+                if (isMainConfig) {
+                    plugin.saveConfig();
+                } else {
+                    config.save(file);
+                }
+            } catch (Exception e) {
+                plugin.getLogger().severe("Failed to save " + fileName);
+            }
+        }
+
+        return config;
+    }
+
     public void reload() {
-        config = plugin.getConfig();
+        config = migrateConfig("config.yml");
         xpPerLevel = config.getInt("experience.xp-per-level", 200);
         seasonResetType = config.getString("season.reset-type", "DURATION");
         seasonDuration = config.getInt("season.duration", 30);
@@ -101,8 +160,11 @@ public class ConfigManager {
         }
 
         coinsDistribution.clear();
-        for (int i = 1; i <= 10; i++) {
-            coinsDistribution.add(config.getInt("battle-coins.distribution." + i, 11 - i));
+        ConfigurationSection section = config.getConfigurationSection("battle-coins.distribution");
+        if (section != null) {
+            for (String key : section.getKeys(false)) {
+                coinsDistribution.add(section.getInt(key));
+            }
         }
 
         File missionsFile = new File(plugin.getDataFolder(), "missions.yml");
@@ -110,8 +172,10 @@ public class ConfigManager {
         dailyMissionsCount = missionsConfig.getInt("daily-missions-count", 7);
         premiumAdditionalMissionsCount = getMissionsConfig().getInt("premium-additional-missions", 2);
 
-        File messagesFile = new File(plugin.getDataFolder(), "messages.yml");
-        messagesConfig = YamlConfiguration.loadConfiguration(messagesFile);
+        messagesConfig = migrateConfig("messages.yml");
+
+        File shopFile = new File(plugin.getDataFolder(), "shop.yml");
+        shopConfig = YamlConfiguration.loadConfiguration(shopFile);
 
         File battlePassFreeFile = new File(plugin.getDataFolder(), "BattlePassFREE.yml");
         if (!battlePassFreeFile.exists()) {
@@ -132,7 +196,7 @@ public class ConfigManager {
         }
 
         try {
-            return Material.valueOf(materialName.toUpperCase());
+            return Material.matchMaterial(materialName.toUpperCase());
         } catch (IllegalArgumentException e) {
             plugin.getLogger().warning("Invalid material '" + materialName + "' in config. Using default: " + defaultMaterial.name());
             return defaultMaterial;
@@ -149,6 +213,10 @@ public class ConfigManager {
 
     public FileConfiguration getMessagesConfig() {
         return messagesConfig;
+    }
+
+    public FileConfiguration getShopConfig() {
+        return shopConfig;
     }
 
     public FileConfiguration getBattlePassFreeConfig() {

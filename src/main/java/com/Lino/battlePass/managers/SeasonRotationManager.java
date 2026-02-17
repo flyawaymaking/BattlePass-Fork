@@ -76,8 +76,10 @@ public class SeasonRotationManager {
                 File destPremium = new File(seasonFolder, "BattlePassPREMIUM.yml");
 
                 try {
-                    if (sourceFree.exists()) Files.copy(sourceFree.toPath(), destFree.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                    if (sourcePremium.exists()) Files.copy(sourcePremium.toPath(), destPremium.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    if (sourceFree.exists())
+                        Files.copy(sourceFree.toPath(), destFree.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    if (sourcePremium.exists())
+                        Files.copy(sourcePremium.toPath(), destPremium.toPath(), StandardCopyOption.REPLACE_EXISTING);
                     plugin.getLogger().info("Created default season folder: season-" + i);
                 } catch (IOException e) {
                     plugin.getLogger().severe("Failed to create season-" + i + " folder: " + e.getMessage());
@@ -112,8 +114,10 @@ public class SeasonRotationManager {
         File mainPremium = new File(plugin.getDataFolder(), "BattlePassPREMIUM.yml");
 
         try {
-            if (seasonFree.exists()) Files.copy(seasonFree.toPath(), mainFree.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            if (seasonPremium.exists()) Files.copy(seasonPremium.toPath(), mainPremium.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            if (seasonFree.exists())
+                Files.copy(seasonFree.toPath(), mainFree.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            if (seasonPremium.exists())
+                Files.copy(seasonPremium.toPath(), mainPremium.toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             plugin.getLogger().severe("Failed to apply season " + seasonNumber + " rewards: " + e.getMessage());
         }

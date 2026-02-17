@@ -44,7 +44,7 @@ public class MissionManager {
                 }
 
                 if (LocalDateTime.now().isAfter(resetHandler.getSeasonEndDate())) {
-                    Bukkit.getScheduler().runTask(plugin, () -> resetSeason());
+                    Bukkit.getScheduler().runTask(plugin, this::resetSeason);
                     return;
                 }
             } else {

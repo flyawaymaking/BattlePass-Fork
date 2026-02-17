@@ -60,6 +60,16 @@ For top 10 players on leaderboard:
 
 Replace X with the position (1-10)
 
+### XP Event Placeholders
+- `%battlepass_xp_event_active%` - Shows "Yes" if an XP boost event is active, "No" otherwise
+- `%battlepass_xp_event_multiplier%` - Current XP multiplier during an active event (e.g., "2x")
+- `%battlepass_xp_event_time%` - Time remaining for the active XP event
+- `%battlepass_xp_event_remaining%` - Same as above
+
+### Current Season Placeholders
+- `%battlepass_current_season%` - Number of the currently active season
+- `%battlepass_total_seasons%` - Total number of seasons configured
+
 ## Examples
 
 ### Scoreboard Example
@@ -69,6 +79,9 @@ Replace X with the position (1-10)
 &7XP: &e%battlepass_xp_progress%
 &7Premium: &e%battlepass_premium_status%
 &7Coins: &e%battlepass_coins%
+&7Available Rewards: &e%battlepass_available_rewards%
+&7Daily Reward: &e%battlepass_daily_reward_available%
+&7XP Event: &e%battlepass_xp_event_active% (%battlepass_xp_event_multiplier%)
 ```
 
 ### Hologram Example
@@ -77,6 +90,13 @@ Replace X with the position (1-10)
 &e#1 &f%battlepass_top_1_name% &7- Lvl &e%battlepass_top_1_level%
 &e#2 &f%battlepass_top_2_name% &7- Lvl &e%battlepass_top_2_level%
 &e#3 &f%battlepass_top_3_name% &7- Lvl &e%battlepass_top_3_level%
+```
+
+### Missions Example
+```
+&6Daily Missions
+&e%battlepass_mission_name_1%: &7%battlepass_mission_progress_1% (%battlepass_mission_status_1%)
+&e%battlepass_mission_name_2%: &7%battlepass_mission_progress_2% (%battlepass_mission_status_2%)
 ```
 
 ### Tab List Example

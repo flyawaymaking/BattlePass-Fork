@@ -126,17 +126,26 @@ Supported targets: `ANY`, `WALK`, `SWIM`, `FLY`, `SNEAK`.
 
 ## 🎮 Commands & Permissions
 
-| Command                                 | Permission         | Description                                             |
-|:----------------------------------------|:-------------------|:--------------------------------------------------------|
-| `/bp` or `/battlepass`                  | `battlepass.use`   | Opens the main Battle Pass menu.                        |
-| `/bp help`                              | `battlepass.use`   | Shows the help menu.                                    |
-| `/bp giveitem <type> <player> <amount>` | `battlepass.admin` | Give special items (Premium Voucher, Coins, XP Boosts). |
-| `/bp addpremium <player>`               | `battlepass.admin` | Force unlock Premium Pass for a player.                 |
-| `/bp addxp <player> <amount>`           | `battlepass.admin` | Give XP to a player.                                    |
-| `/bp reset season`                      | `battlepass.admin` | Force reset the entire season progress.                 |
-| `/bp reset missions`                    | `battlepass.admin` | Force generate new daily missions.                      |
-| `/bp resetplayer <name>`                | `battlepass.admin` | Reset battle pass progress for a player.                |
-| `/bp reload`                            | `battlepass.admin` | Reloads all configuration files.                        |
+| Command                                 | Permission         | Description                                                                                                                                                     |
+|:----------------------------------------|:-------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `/bp` or `/battlepass`                  | `battlepass.use`   | Opens the main Battle Pass menu.                                                                                                                                |
+| `/bp help`                              | `battlepass.use`   | Shows the help menu with all available commands.                                                                                                                |
+| `/bp giveitem <type> <player> <amount>` | `battlepass.admin` | Gives special items to a player. Types: `premium` (Premium Pass Voucher), `coins` (Battle Coins), `levelboost` (Experience Boost), `xpevent` (XP Event Beacon). |
+| `/bp addpremium <player>`               | `battlepass.admin` | Force unlock Premium Pass for a player.                                                                                                                         |
+| `/bp removepremium <player>`            | `battlepass.admin` | Remove Premium Pass from a player.                                                                                                                              |
+| `/bp addxp <player> <amount>`           | `battlepass.admin` | Give XP to a player.                                                                                                                                            |
+| `/bp removexp <player> <amount>`        | `battlepass.admin` | Remove XP from a player.                                                                                                                                        |
+| `/bp addcoins <player> <amount>`        | `battlepass.admin` | Give Battle Coins to a player.                                                                                                                                  |
+| `/bp removecoins <player> <amount>`     | `battlepass.admin` | Remove Battle Coins from a player.                                                                                                                              |
+| `/bp reset season`                      | `battlepass.admin` | Force reset the entire season progress.                                                                                                                         |
+| `/bp reset missions`                    | `battlepass.admin` | Force generate new daily missions for all players.                                                                                                              |
+| `/bp resetplayer <player>`              | `battlepass.admin` | Reset battle pass progress, claimed rewards, and mission progress for a specific player.                                                                        |
+| `/bp reload`                            | `battlepass.admin` | Reloads all configuration files and restarts the coins distribution task.                                                                                       |
+| `/bp edit rewards season <number>`      | `battlepass.admin` | Opens the reward editor GUI for a specific season.                                                                                                              |
+| `/bp event <multiplier> <duration>`     | `battlepass.admin` | Starts an XP boost event with the given multiplier and duration (in ticks/seconds depending on config).                                                         |
+| `/bp stopevent`                         | `battlepass.admin` | Stops the currently active XP boost event.                                                                                                                      |
+| `/bp excludefromtop <player>`           | `battlepass.admin` | Exclude a player from appearing in the top leaderboard.                                                                                                         |
+| `/bp includetop <player>`               | `battlepass.admin` | Include a previously excluded player back into the top leaderboard.                                                                                             |
 
 ## 🧩 Placeholders (PAPI)
 

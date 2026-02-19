@@ -67,7 +67,7 @@ public class BattlePassGui extends BaseGui {
                     .replace("%current_season%", currentSeason);
             lore.add(GradientColorParser.parse(processedLine));
 
-            if (line.contains("%season_time%")) {
+            if (rotation.isRotationEnabled()) {
                 lore.add(GradientColorParser.parse(
                         "&8▸ &7Current Season: <gradient:#FFD93D:#FF6B6B>" + currentSeason + "</gradient>"));
             }

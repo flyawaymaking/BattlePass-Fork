@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group = 'com.Lino.battlePass.BattlePass'
+group = 'com.Lino.battlePass'
 version = 'v8.2.2'
 
 java {
@@ -33,4 +33,14 @@ dependencies {
 
 tasks.jar {
     archiveBaseName.set("BattlePass-Fork")
+}
+
+tasks.processResources {
+    filesMatching("plugin.yml") {
+        expand(
+                version: project.version,
+                name: project.name,
+                group: project.group
+        )
+    }
 }

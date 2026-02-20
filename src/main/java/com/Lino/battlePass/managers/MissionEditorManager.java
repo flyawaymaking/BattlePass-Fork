@@ -246,7 +246,7 @@ public class MissionEditorManager {
         DISPLAY_NAME("Display Name"),
         TYPE("Type"),
         TARGET("Target"),
-        ADDITIONAL_TARGETS("Additional Targets"), // НОВОЕ
+        ADDITIONAL_TARGETS("Additional Targets"),
         MIN_REQ("Min Required"),
         MAX_REQ("Max Required"),
         MIN_XP("Min XP"),

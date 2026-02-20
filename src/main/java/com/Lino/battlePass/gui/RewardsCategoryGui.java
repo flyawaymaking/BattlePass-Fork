@@ -81,7 +81,7 @@ public class RewardsCategoryGui {
         }
 
         int maxLevel = plugin.getRewardManager().getMaxLevel();
-        if (endLevel < maxLevel + LEVELS_PER_PAGE) {
+        if (endLevel < maxLevel) {
             ItemStack nextPage = new ItemStack(Material.ARROW);
             ItemMeta nextMeta = nextPage.getItemMeta();
             nextMeta.setDisplayName(GradientColorParser.parse("<gradient:#4ECDC4:#45B7D1>Next Page →</gradient>"));

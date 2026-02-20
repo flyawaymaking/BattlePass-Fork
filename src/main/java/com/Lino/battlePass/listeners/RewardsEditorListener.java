@@ -172,7 +172,7 @@ public class RewardsEditorListener implements Listener {
         } else if (slot == 53) {
             int maxLevel = plugin.getRewardManager().getMaxLevel();
             int endLevel = (currentPage - 1) * 45 + 45;
-            if (endLevel < maxLevel + 45) {
+            if (endLevel < maxLevel) {
                 player.closeInventory();
                 final int nextPage = currentPage + 1;
                 final boolean finalIsPremium = isPremium;

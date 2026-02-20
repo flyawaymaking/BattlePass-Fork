@@ -194,13 +194,12 @@ public class ConfigManager {
         if (materialName == null || materialName.isEmpty()) {
             return defaultMaterial;
         }
-
-        try {
-            return Material.matchMaterial(materialName.toUpperCase());
-        } catch (IllegalArgumentException e) {
+        Material material = Material.matchMaterial(materialName);
+        if (material == null) {
             plugin.getLogger().warning("Invalid material '" + materialName + "' in config. Using default: " + defaultMaterial.name());
             return defaultMaterial;
         }
+        return material;
     }
 
     public FileConfiguration getConfig() {

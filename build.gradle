@@ -3,11 +3,11 @@ plugins {
 }
 
 group = 'com.Lino.battlePass'
-version = 'v8.2.3'
+version = 'v8.2.4'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(25)
     }
 }
 
@@ -24,11 +24,11 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'io.papermc.paper:paper-api:1.21.10-R0.1-SNAPSHOT'
-    implementation "com.zaxxer:HikariCP:7.0.2"
-    implementation "com.mysql:mysql-connector-j:9.5.0"
-    compileOnly 'me.clip:placeholderapi:2.11.7'
-    compileOnly 'io.lumine:Mythic-Dist:5.9.5'
+    compileOnly 'io.papermc.paper:paper-api:26.2.build.84-stable'
+    implementation "com.zaxxer:HikariCP:7.1.0"
+    implementation "com.mysql:mysql-connector-j:9.7.0"
+    compileOnly 'me.clip:placeholderapi:2.12.2'
+    compileOnly 'io.lumine:Mythic-Dist:5.12.0'
 }
 
 tasks.jar {

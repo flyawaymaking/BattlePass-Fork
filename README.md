@@ -4,6 +4,8 @@
 > Engage your players with Daily Missions, Tiered Rewards, and a custom Currency Shop.
 > **No config editing required** — manage everything via In-Game GUI!
 
+## 🧩 Version Compatibility
+
 | **Plugin version** | **Supported Paper** | **Java** |
 |--------------------|---------------------|----------|
 | `8.2.4`            | `1.21` – `26.2`     | 25       |

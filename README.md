@@ -8,7 +8,7 @@
 
 | **Plugin version** | **Supported Paper** | **Java** |
 |--------------------|---------------------|----------|
-| `8.2.4`            | `1.21` – `26.2`     | 25       |
+| `8.2.4+`           | `1.21` – `26.2`     | 25       |
 | `8.2.3`            | `1.21` – `1.21.11`  | 21       |
 
 ![Java](https://img.shields.io/badge/Java-21-orange) ![License](https://img.shields.io/badge/License-MIT-blue)

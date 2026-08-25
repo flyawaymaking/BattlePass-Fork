@@ -8,10 +8,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
-import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.util.Base64;
 import java.util.List;
 
 public class ItemSerializer {
@@ -26,7 +26,7 @@ public class ItemSerializer {
             BukkitObjectOutputStream dataOutput = new BukkitObjectOutputStream(outputStream);
             dataOutput.writeObject(item);
             dataOutput.close();
-            String base64 = Base64Coder.encodeLines(outputStream.toByteArray());
+            String base64 = Base64.getMimeEncoder().encodeToString(outputStream.toByteArray());
             section.set("serialized-item", base64);
 
             section.set("material", item.getType().name());
@@ -56,7 +56,7 @@ public class ItemSerializer {
         if (section.contains("serialized-item")) {
             try {
                 String data = section.getString("serialized-item");
-                ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(data));
+                ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64.getMimeDecoder().decode(data));
                 BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream);
                 ItemStack item = (ItemStack) dataInput.readObject();
                 dataInput.close();

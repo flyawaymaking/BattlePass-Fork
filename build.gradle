@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'com.Lino.battlePass'
-version = 'v8.2.4'
+version = 'v8.2.5'
 
 java {
     toolchain {

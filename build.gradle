@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'io.papermc.paper:paper-api:26.2.build.84-stable'
+    compileOnly 'io.papermc.paper:paper-api:26.3.build.159-beta'
     implementation "com.zaxxer:HikariCP:7.1.0"
     implementation "com.mysql:mysql-connector-j:9.7.0"
     compileOnly 'me.clip:placeholderapi:2.12.2'

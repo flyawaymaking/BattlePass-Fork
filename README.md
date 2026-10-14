@@ -1,5 +1,8 @@
 # ⚔️ BattlePass - Ultimate Progression Plugin for Minecraft (1.21+)
 
+[![Modrinth Downloads](https://img.shields.io/modrinth/dt/battlepass-fork?logo=modrinth&label=downloads&color=1bd96a)](https://modrinth.com/plugin/battlepass-fork)
+[![Modrinth Followers](https://img.shields.io/modrinth/followers/battlepass-fork?logo=modrinth&label=followers&color=1bd96a)](https://modrinth.com/plugin/battlepass-fork)
+
 > **The most advanced, feature-rich Battle Pass system for Paper servers.**
 > Engage your players with Daily Missions, Tiered Rewards, and a custom Currency Shop.
 > **No config editing required** — manage everything via In-Game GUI!
